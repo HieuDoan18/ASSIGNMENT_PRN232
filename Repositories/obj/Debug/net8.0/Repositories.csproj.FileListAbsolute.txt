@@ -1,0 +1,11 @@
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\bin\Debug\net8.0\Repositories.deps.json
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\bin\Debug\net8.0\Repositories.dll
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\bin\Debug\net8.0\Repositories.pdb
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\Repositories.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\Repositories.AssemblyInfoInputs.cache
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\Repositories.AssemblyInfo.cs
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\Repositories.csproj.CoreCompileInputs.cache
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\Repositories.dll
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\refint\Repositories.dll
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\Repositories.pdb
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\ref\Repositories.dll
