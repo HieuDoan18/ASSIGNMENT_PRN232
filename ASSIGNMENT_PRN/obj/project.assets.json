@@ -4476,23 +4476,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\doanh\\.nuget\\packages\\": {},
+    "C:\\Users\\Hoang\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
+      "projectUniqueName": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
       "projectName": "ASSIGNMENT_PRN",
-      "projectPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
-      "packagesPath": "C:\\Users\\doanh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\obj\\",
+      "projectPath": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
+      "packagesPath": "C:\\Users\\Hoang\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\doanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4507,8 +4507,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\DataAccess.csproj": {
-              "projectPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\DataAccess.csproj"
+            "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\DataAccess.csproj": {
+              "projectPath": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\DataAccess.csproj"
             }
           }
         }
@@ -4523,7 +4523,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -4573,7 +4573,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

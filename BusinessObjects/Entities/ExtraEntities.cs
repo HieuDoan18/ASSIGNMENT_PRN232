@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BusinessObjects.Entities
 {
     public class Service
     {
+        [Key]
         public int ServiceId { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
@@ -22,6 +24,7 @@ namespace BusinessObjects.Entities
 
     public class Payment
     {
+        [Key]
         public int PaymentId { get; set; }
         public int BookingId { get; set; }
         public Booking Booking { get; set; }
@@ -33,6 +36,7 @@ namespace BusinessObjects.Entities
 
     public class CustomerRequest
     {
+        [Key]
         public int RequestId { get; set; }
         public int? BookingId { get; set; }
         public Booking Booking { get; set; }
@@ -43,6 +47,7 @@ namespace BusinessObjects.Entities
 
     public class Review
     {
+        [Key]
         public int ReviewId { get; set; }
         public int BookingId { get; set; }
         public Booking Booking { get; set; }
@@ -54,6 +59,7 @@ namespace BusinessObjects.Entities
 
     public class InventoryItem
     {
+        [Key]
         public int InventoryItemId { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
