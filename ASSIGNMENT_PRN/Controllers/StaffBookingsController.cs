@@ -156,6 +156,48 @@ namespace ASSIGNMENT_PRN.Controllers
             return Ok("Booking cancelled");
         }
 
+        // PUT: /api/staff/bookings/{id}/checkin
+        [HttpPut("{id}/checkin")]
+        public async Task<IActionResult> CheckIn(int id)
+        {
+            var booking = await _context.Bookings.Include(b => b.Room).FirstOrDefaultAsync(b => b.BookingId == id);
+            if (booking == null) return NotFound();
+
+            if (booking.Status != "Confirmed")
+                return BadRequest("Booking must be Confirmed before Check-in");
+
+            booking.Status = "CheckedIn";
+            booking.ActualCheckIn = DateTime.Now;
+            if (booking.Room != null)
+            {
+                booking.Room.Status = "Occupied";
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok("Checked In successfully");
+        }
+
+        // PUT: /api/staff/bookings/{id}/checkout
+        [HttpPut("{id}/checkout")]
+        public async Task<IActionResult> CheckOut(int id)
+        {
+            var booking = await _context.Bookings.Include(b => b.Room).FirstOrDefaultAsync(b => b.BookingId == id);
+            if (booking == null) return NotFound();
+
+            if (booking.Status != "CheckedIn")
+                return BadRequest("Booking must be CheckedIn before Check-out");
+
+            booking.Status = "Completed";
+            booking.ActualCheckOut = DateTime.Now;
+            if (booking.Room != null)
+            {
+                booking.Room.Status = "Dirty"; // Set to dirty after check-out
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok("Checked Out successfully");
+        }
+
         // GET: /api/staff/bookings/today
         [HttpGet("today")]
         public async Task<ActionResult<object>> GetTodaySchedule()

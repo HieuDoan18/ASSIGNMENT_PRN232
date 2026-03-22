@@ -20,10 +20,15 @@ namespace BusinessObjects.Entities
 
         public double TotalPrice { get; set; }
         public string Status { get; set; }
+        public DateTime? ActualCheckIn { get; set; }
+        public DateTime? ActualCheckOut { get; set; }
+
 
 
         public User User { get; set; }
 
         public Room Room { get; set; }
+
+        public ICollection<BookingService> BookingServices { get; set; }
     }
 }
