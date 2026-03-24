@@ -28,6 +28,8 @@ namespace BusinessObjects.Entities
 
         public DateTime? ResetPasswordTokenExpiry { get; set; }
 
+        public bool IsLocked { get; set; }
+
         public ICollection<Booking> Bookings { get; set; }
     }
 }
