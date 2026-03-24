@@ -25,6 +25,10 @@ namespace HotelManagement.DataAccess
         public DbSet<Review> Reviews { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
 
+        public DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<Pricing> Pricings { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookingService>()
