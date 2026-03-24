@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\Repositories.csproj": {}
+    "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\Repositories\\Repositories.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\Repositories.csproj": {
+    "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\Repositories\\Repositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\Repositories.csproj",
+        "projectUniqueName": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\Repositories\\Repositories.csproj",
         "projectName": "Repositories",
-        "projectPath": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\Repositories.csproj",
-        "packagesPath": "C:\\Users\\Hoang\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\obj\\",
+        "projectPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\Repositories\\Repositories.csproj",
+        "packagesPath": "C:\\Users\\doanh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\Repositories\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\doanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -65,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
