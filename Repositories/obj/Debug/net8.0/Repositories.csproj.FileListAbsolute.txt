@@ -21,3 +21,4 @@ C:\Users\Hoang\ASSIGNMENT_PRN232\Repositories\obj\Debug\net8.0\Repositories.dll
 C:\Users\Hoang\ASSIGNMENT_PRN232\Repositories\obj\Debug\net8.0\refint\Repositories.dll
 C:\Users\Hoang\ASSIGNMENT_PRN232\Repositories\obj\Debug\net8.0\Repositories.pdb
 C:\Users\Hoang\ASSIGNMENT_PRN232\Repositories\obj\Debug\net8.0\ref\Repositories.dll
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\Repositories\obj\Debug\net8.0\Repositories.sourcelink.json

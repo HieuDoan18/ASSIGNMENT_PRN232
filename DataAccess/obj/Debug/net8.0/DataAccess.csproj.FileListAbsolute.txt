@@ -33,3 +33,4 @@ C:\Users\Hoang\ASSIGNMENT_PRN232\DataAccess\obj\Debug\net8.0\refint\DataAccess.d
 C:\Users\Hoang\ASSIGNMENT_PRN232\DataAccess\obj\Debug\net8.0\DataAccess.pdb
 C:\Users\Hoang\ASSIGNMENT_PRN232\DataAccess\obj\Debug\net8.0\DataAccess.genruntimeconfig.cache
 C:\Users\Hoang\ASSIGNMENT_PRN232\DataAccess\obj\Debug\net8.0\ref\DataAccess.dll
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\DataAccess\obj\Debug\net8.0\DataAccess.sourcelink.json
