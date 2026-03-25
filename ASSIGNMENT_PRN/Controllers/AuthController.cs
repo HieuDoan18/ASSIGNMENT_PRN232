@@ -11,6 +11,7 @@ using ASSIGNMENT_PRN.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography;
+using ASSIGNMENT_PRN.Services;
 
 namespace ASSIGNMENT_PRN.Controllers
 {
@@ -20,11 +21,13 @@ namespace ASSIGNMENT_PRN.Controllers
     {
         private readonly HotelDbContext _context;
         private readonly JwtSettings _jwtSettings;
+        private readonly IEmailService _emailService;
 
-        public AuthController(HotelDbContext context, IOptions<JwtSettings> jwtSettings)
+        public AuthController(HotelDbContext context, IOptions<JwtSettings> jwtSettings, IEmailService emailService)
         {
             _context = context;
             _jwtSettings = jwtSettings.Value;
+            _emailService = emailService;
         }
 
         [HttpPost("register")]
@@ -132,8 +135,21 @@ namespace ASSIGNMENT_PRN.Controllers
             user.ResetPasswordTokenExpiry = DateTime.UtcNow.AddHours(1);
             await _context.SaveChangesAsync();
 
-            // In real app, send email here
-            return Ok(new { Message = "If that email is in our database, we have sent a password reset token.", Token = user.ResetPasswordToken });
+            // Send Real Email!
+            var subject = "Hotel Management - Password Reset Request";
+            var body = $@"
+                <h3>Password Reset Request</h3>
+                <p>Hello {user.FullName},</p>
+                <p>You requested a password reset. Please use the token below to reset your password:</p>
+                <div style='background: #f4f4f4; padding: 15px; margin: 20px 0; border-radius: 5px;'>
+                    <strong style='font-size: 1.2em;'>{user.ResetPasswordToken}</strong>
+                </div>
+                <p>If you did not request this, please ignore this email.</p>
+                <p>Best Regards,<br>Hotel Management Team</p>";
+                
+            await _emailService.SendEmailAsync(user.Email, subject, body);
+
+            return Ok(new { Message = "If that email is in our database, we have sent a password reset token." });
         }
 
         [HttpPost("reset-password")]

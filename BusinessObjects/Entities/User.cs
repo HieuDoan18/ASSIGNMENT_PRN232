@@ -17,7 +17,7 @@ namespace BusinessObjects.Entities
         public string FullName { get; set; }
 
         public string Role { get; set; }
-
+            
         public string? Avatar { get; set; }
 
         public string? RefreshToken { get; set; }
