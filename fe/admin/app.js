@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('jwt_token');
     if (!token) { window.location.href = '../index.html'; return; }
 
-    const sections = ['dashboardSection', 'usersSection', 'roomsSection', 'roomTypesSection', 'servicesSection'];
+    const sections = ['dashboardSection', 'usersSection', 'roomsSection', 'roomTypesSection', 'servicesSection', 'pricingSection'];
     const navItems = document.querySelectorAll('.nav-item');
 
     navItems.forEach(item => {
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (targetId === 'roomsSection') loadRooms();
             if (targetId === 'roomTypesSection') loadRoomTypes();
             if (targetId === 'servicesSection') loadServices();
+            if (targetId === 'pricingSection') { loadPricing(); loadPromotions(); }
         });
     });
 
@@ -30,16 +31,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ------------------- REPORTS -------------------
     document.getElementById('refreshReportsBtn').addEventListener('click', loadReports);
+    document.getElementById('clearReportFilterBtn').addEventListener('click', () => {
+        document.getElementById('reportStartDate').value = '';
+        document.getElementById('reportEndDate').value = '';
+        loadReports();
+    });
 
     async function loadReports() {
+        const startDate = document.getElementById('reportStartDate').value;
+        const endDate = document.getElementById('reportEndDate').value;
+
+        if (startDate && endDate && new Date(endDate) <= new Date(startDate)) {
+            alert('End date must be greater than start date');
+            return;
+        }
+
+        let revParams = '';
+        let bksParams = '';
+        if (startDate) { revParams += `startDate=${startDate}`; bksParams += `startDate=${startDate}`; }
+        if (endDate) { revParams += `${revParams ? '&' : ''}endDate=${endDate}`; bksParams += `${bksParams ? '&' : ''}endDate=${endDate}`; }
+
+        const revUrl = revParams ? `/admin/reports/revenue?${revParams}` : '/admin/reports/revenue';
+        const bksUrl = bksParams ? `/admin/reports/bookings?${bksParams}` : '/admin/reports/bookings';
+        const occDate = endDate || startDate || new Date().toISOString();
+
         try {
             const [rev, bks, occ] = await Promise.all([
-                ApiService.get('/admin/reports/revenue'),
-                ApiService.get('/admin/reports/bookings'),
-                ApiService.get(`/admin/reports/occupancy?date=${new Date().toISOString()}`)
+                ApiService.get(revUrl),
+                ApiService.get(bksUrl),
+                ApiService.get(`/admin/reports/occupancy?date=${occDate}`)
             ]);
             document.getElementById('repRevenue').textContent = `$${rev.totalRevenue || 0}`;
             document.getElementById('repBookings').textContent = bks.totalBookings || 0;
+            document.getElementById('repCancelled').textContent = bks.cancelledBookings || 0;
+            document.getElementById('repCompleted').textContent = bks.completedBookings || 0;
             document.getElementById('repOccupancy').textContent = `${(occ.occupancyRatePercentage || 0).toFixed(1)}%`;
         } catch (error) { console.error("Failed to load reports", error); }
     }
@@ -127,7 +152,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div style="display:flex; gap:6px; flex-wrap:wrap;">
                             <button class="btn btn-secondary btn-xs" onclick="viewUser(${u.userId})">Detail</button>
                             <button class="btn btn-warning btn-xs" onclick="editUser(${u.userId}, '${u.fullName}', '${u.email}', '${u.role}')">Edit</button>
-                            <button class="btn btn-secondary btn-xs" onclick="changeRole(${u.userId})">Role</button>
                             <button class="btn btn-secondary btn-xs" onclick="toggleLock(${u.userId})">${isLocked ? 'Unlock' : 'Lock'}</button>
                             <button class="btn btn-danger btn-xs" onclick="deleteUser(${u.userId})">Delete</button>
                         </div>
@@ -288,7 +312,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>
                         <div style="display:flex; gap:6px; flex-wrap:wrap;">
                             <button class="btn btn-warning btn-xs" onclick="editRoom(${r.roomId}, '${r.roomNumber}', ${r.price}, '${r.status}', ${r.roomTypeId || 'null'})">Edit</button>
-                            <button class="btn btn-secondary btn-xs" onclick="changeRoomStatus(${r.roomId})">Status</button>
                             <button class="btn btn-danger btn-xs" onclick="deleteRoom(${r.roomId})">Delete</button>
                         </div>
                     </td>`;
@@ -426,36 +449,324 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) { alert('Failed: ' + error.message); }
     };
 
-    // ------------------- SERVICES -------------------
+    // ------------------- SERVICES (full CRUD) -------------------
+    const serviceModal = document.getElementById('serviceModal');
+    const serviceModalForm = document.getElementById('serviceModalForm');
+    const serviceModalAlert = document.getElementById('serviceModalAlert');
+
+    const openServiceModal = (isEdit = false) => {
+        serviceModal.classList.remove('hidden');
+        document.getElementById('serviceModalTitle').textContent = isEdit ? 'Edit Service' : 'Create Service';
+        serviceModalAlert.style.display = 'none';
+        if (!isEdit) serviceModalForm.reset();
+    };
+    const closeServiceModal = () => serviceModal.classList.add('hidden');
+
+    document.getElementById('openCreateServiceBtn').addEventListener('click', () => {
+        document.getElementById('serviceModalId').value = '';
+        openServiceModal(false);
+    });
+    document.getElementById('closeServiceModal').addEventListener('click', closeServiceModal);
+    document.getElementById('closeServiceModalBtn').addEventListener('click', closeServiceModal);
+
+    serviceModalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('serviceModalId').value;
+        const isEdit = !!id;
+        const payload = {
+            name: document.getElementById('serviceModalName').value,
+            price: parseFloat(document.getElementById('serviceModalPrice').value)
+        };
+        try {
+            if (isEdit) await ApiService.put(`/admin/services/${id}`, payload);
+            else await ApiService.post('/admin/services', payload);
+            closeServiceModal();
+            loadServices();
+        } catch (error) {
+            serviceModalAlert.textContent = error.message;
+            serviceModalAlert.className = 'alert alert-error';
+            serviceModalAlert.style.display = 'block';
+        }
+    });
+
     async function loadServices() {
         const tbody = document.getElementById('servicesTableBody');
-        tbody.innerHTML = '<tr><td colspan="3" class="text-center">Loading...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading...</td></tr>';
         try {
             const data = await ApiService.get('/admin/services');
             tbody.innerHTML = '';
             data.forEach(s => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
+                    <td>${s.serviceId}</td>
                     <td>${s.name}</td>
                     <td>$${s.price}</td>
-                    <td><button class="btn btn-secondary btn-xs" onclick="promptPrice(${s.serviceId})">Update Price</button></td>`;
+                    <td>
+                        <div style="display:flex; gap:6px;">
+                            <button class="btn btn-warning btn-xs" onclick="editService(${s.serviceId}, '', ${s.price})">Edit</button>
+                            <button class="btn btn-danger btn-xs" onclick="deleteService(${s.serviceId})">Delete</button>
+                        </div>
+                    </td>`;
+                // To avoid quoting issues with names, we attach via properties or use safely encoded strings
+                tr.querySelector('.btn-warning').onclick = () => editService(s.serviceId, s.name, s.price);
                 tbody.appendChild(tr);
             });
         } catch (error) {
-            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-error">Failed: ${error.message}</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center text-error">Failed: ${error.message}</td></tr>`;
         }
     }
+
+    window.editService = (id, name, price) => {
+        document.getElementById('serviceModalId').value = id;
+        document.getElementById('serviceModalName').value = name;
+        document.getElementById('serviceModalPrice').value = price;
+        openServiceModal(true);
+    };
 
     window.promptPrice = async (serviceId) => {
         const p = prompt("Enter new price:");
         if (!p) return;
         try {
-            await fetch(`http://localhost:5034/api/admin/services/${serviceId}/price`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt_token')}` },
-                body: JSON.stringify(parseFloat(p))
-            });
+            await ApiService.put(`/admin/services/${serviceId}/price`, parseFloat(p));
             loadServices();
         } catch (error) { alert(error.message); }
+    };
+
+    window.deleteService = async (id) => {
+        if (!confirm(`Delete service #${id}?`)) return;
+        try {
+            await ApiService.delete(`/admin/services/${id}`);
+            loadServices();
+        } catch (error) { alert('Failed: ' + error.message); }
+    };
+
+    // ------------------- PRICING (full CRUD) -------------------
+    const pricingModal = document.getElementById('pricingModal');
+    const pricingModalForm = document.getElementById('pricingModalForm');
+    const pricingModalAlert = document.getElementById('pricingModalAlert');
+
+    const openPricingModal = async (isEdit = false) => {
+        pricingModal.classList.remove('hidden');
+        document.getElementById('pricingModalTitle').textContent = isEdit ? 'Edit Pricing' : 'Create Pricing';
+        pricingModalAlert.style.display = 'none';
+        if (!isEdit) pricingModalForm.reset();
+        await loadRoomTypeDropdownForPricing();
+    };
+    const closePricingModal = () => pricingModal.classList.add('hidden');
+
+    document.getElementById('openCreatePricingBtn').addEventListener('click', () => {
+        document.getElementById('pricingModalId').value = '';
+        openPricingModal(false);
+    });
+    document.getElementById('closePricingModal').addEventListener('click', closePricingModal);
+    document.getElementById('closePricingModalBtn').addEventListener('click', closePricingModal);
+
+    async function loadRoomTypeDropdownForPricing() {
+        try {
+            if (roomTypeCache.length === 0) roomTypeCache = await ApiService.get('/admin/room-types');
+            const sel = document.getElementById('pricingModalRoomType');
+            sel.innerHTML = '<option value="">-- Select Room Type --</option>';
+            roomTypeCache.forEach(rt => {
+                const opt = document.createElement('option');
+                opt.value = rt.roomTypeId;
+                opt.textContent = rt.name;
+                sel.appendChild(opt);
+            });
+        } catch (e) { console.error('Could not load room types for pricing', e); }
+    }
+
+    pricingModalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('pricingModalId').value;
+        const isEdit = !!id;
+        const payload = {
+            roomTypeId: parseInt(document.getElementById('pricingModalRoomType').value),
+            seasonName: document.getElementById('pricingModalSeason').value,
+            multiplier: parseFloat(document.getElementById('pricingModalMultiplier').value),
+            startDate: document.getElementById('pricingModalStart').value,
+            endDate: document.getElementById('pricingModalEnd').value
+        };
+        if (new Date(payload.endDate) <= new Date(payload.startDate)) {
+            pricingModalAlert.textContent = 'End date must be greater than start date';
+            pricingModalAlert.className = 'alert alert-error';
+            pricingModalAlert.style.display = 'block';
+            return;
+        }
+        try {
+            if (isEdit) await ApiService.put(`/admin/pricing/${id}`, payload);
+            else await ApiService.post('/admin/pricing', payload);
+            closePricingModal();
+            loadPricing();
+        } catch (error) {
+            pricingModalAlert.textContent = error.message;
+            pricingModalAlert.className = 'alert alert-error';
+            pricingModalAlert.style.display = 'block';
+        }
+    });
+
+    function getStatus(startDate, endDate) {
+        const now = new Date();
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (start > now) return { label: 'Upcoming', color: '#3B82F6' };
+        if (start <= now && end >= now) return { label: 'Active', color: '#10B981' };
+        return { label: 'Expired', color: '#EF4444' };
+    }
+
+    async function loadPricing() {
+        const tbody = document.getElementById('pricingTableBody');
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">Loading...</td></tr>';
+        try {
+            const data = await ApiService.get('/admin/pricing');
+            tbody.innerHTML = '';
+            if (!data.length) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">No pricing records found.</td></tr>';
+                return;
+            }
+            data.forEach(p => {
+                const tr = document.createElement('tr');
+                const startDate = p.startDate ? p.startDate.split('T')[0] : '';
+                const endDate = p.endDate ? p.endDate.split('T')[0] : '';
+                const status = getStatus(p.startDate, p.endDate);
+                const isUpcoming = status.label === 'Upcoming';
+                tr.innerHTML = `
+                    <td>${p.pricingId}</td>
+                    <td>${p.roomType ? p.roomType.name : 'Unknown'}</td>
+                    <td>${p.seasonName}</td>
+                    <td>${p.multiplier}x</td>
+                    <td>${startDate}</td>
+                    <td>${endDate}</td>
+                    <td><span style="color:${status.color}; font-weight:600;">● ${status.label}</span></td>
+                    <td>
+                        <div style="display:flex; gap:6px;">
+                            ${isUpcoming ? '<button class="btn btn-warning btn-xs edit-pricing-btn">Edit</button>' : ''}
+                        </div>
+                    </td>`;
+                if (isUpcoming) {
+                    tr.querySelector('.edit-pricing-btn').onclick = () => editPricing(p.pricingId, p.roomTypeId, p.seasonName, p.multiplier, p.startDate, p.endDate);
+                }
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center text-error">Failed: ${error.message}</td></tr>`;
+        }
+    }
+
+    window.editPricing = async (id, roomTypeId, seasonName, multiplier, startDate, endDate) => {
+        document.getElementById('pricingModalId').value = id;
+        document.getElementById('pricingModalSeason').value = seasonName;
+        document.getElementById('pricingModalMultiplier').value = multiplier;
+        document.getElementById('pricingModalStart').value = startDate ? startDate.split('T')[0] : '';
+        document.getElementById('pricingModalEnd').value = endDate ? endDate.split('T')[0] : '';
+        await openPricingModal(true);
+        document.getElementById('pricingModalRoomType').value = roomTypeId;
+    };
+
+    // ------------------- PROMOTIONS (full CRUD) -------------------
+    const promotionModal = document.getElementById('promotionModal');
+    const promotionModalForm = document.getElementById('promotionModalForm');
+    const promotionModalAlert = document.getElementById('promotionModalAlert');
+
+    const openPromotionModal = (isEdit = false) => {
+        promotionModal.classList.remove('hidden');
+        document.getElementById('promotionModalTitle').textContent = isEdit ? 'Edit Promotion' : 'Create Promotion';
+        promotionModalAlert.style.display = 'none';
+        if (!isEdit) promotionModalForm.reset();
+    };
+    const closePromotionModal = () => promotionModal.classList.add('hidden');
+
+    document.getElementById('openCreatePromotionBtn').addEventListener('click', () => {
+        document.getElementById('promotionModalId').value = '';
+        openPromotionModal(false);
+    });
+    document.getElementById('closePromotionModal').addEventListener('click', closePromotionModal);
+    document.getElementById('closePromotionModalBtn').addEventListener('click', closePromotionModal);
+
+    promotionModalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('promotionModalId').value;
+        const isEdit = !!id;
+        const payload = {
+            code: document.getElementById('promotionModalCode').value,
+            discountPercentage: parseFloat(document.getElementById('promotionModalDiscount').value),
+            startDate: document.getElementById('promotionModalStart').value,
+            endDate: document.getElementById('promotionModalEnd').value
+        };
+        if (new Date(payload.endDate) <= new Date(payload.startDate)) {
+            promotionModalAlert.textContent = 'End date must be greater than start date';
+            promotionModalAlert.className = 'alert alert-error';
+            promotionModalAlert.style.display = 'block';
+            return;
+        }
+        try {
+            if (isEdit) await ApiService.put(`/admin/promotions/${id}`, payload);
+            else await ApiService.post('/admin/promotions', payload);
+            closePromotionModal();
+            loadPromotions();
+        } catch (error) {
+            promotionModalAlert.textContent = error.message;
+            promotionModalAlert.className = 'alert alert-error';
+            promotionModalAlert.style.display = 'block';
+        }
+    });
+
+    async function loadPromotions() {
+        const tbody = document.getElementById('promotionsTableBody');
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center">Loading...</td></tr>';
+        try {
+            const data = await ApiService.get('/admin/promotions');
+            tbody.innerHTML = '';
+            if (!data.length) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center">No promotions found.</td></tr>';
+                return;
+            }
+            data.forEach(p => {
+                const tr = document.createElement('tr');
+                const startDate = p.startDate ? p.startDate.split('T')[0] : '';
+                const endDate = p.endDate ? p.endDate.split('T')[0] : '';
+                const status = getStatus(p.startDate, p.endDate);
+                const isUpcoming = status.label === 'Upcoming';
+                const isActive = status.label === 'Active';
+                tr.innerHTML = `
+                    <td>${p.promotionId}</td>
+                    <td><strong>${p.code}</strong></td>
+                    <td>${p.discountPercentage}%</td>
+                    <td>${startDate}</td>
+                    <td>${endDate}</td>
+                    <td><span style="color:${status.color}; font-weight:600;">● ${status.label}</span></td>
+                    <td>
+                        <div style="display:flex; gap:6px;">
+                            ${isUpcoming ? '<button class="btn btn-warning btn-xs edit-promo-btn">Edit</button>' : ''}
+                            ${!isActive ? '<button class="btn btn-danger btn-xs delete-promo-btn">Delete</button>' : ''}
+                        </div>
+                    </td>`;
+                if (isUpcoming) {
+                    tr.querySelector('.edit-promo-btn').onclick = () => editPromotion(p.promotionId, p.code, p.discountPercentage, p.startDate, p.endDate);
+                }
+                if (!isActive) {
+                    tr.querySelector('.delete-promo-btn').onclick = () => deletePromotion(p.promotionId);
+                }
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center text-error">Failed: ${error.message}</td></tr>`;
+        }
+    }
+
+    window.editPromotion = (id, code, discountPercentage, startDate, endDate) => {
+        document.getElementById('promotionModalId').value = id;
+        document.getElementById('promotionModalCode').value = code;
+        document.getElementById('promotionModalDiscount').value = discountPercentage;
+        document.getElementById('promotionModalStart').value = startDate ? startDate.split('T')[0] : '';
+        document.getElementById('promotionModalEnd').value = endDate ? endDate.split('T')[0] : '';
+        openPromotionModal(true);
+    };
+
+    window.deletePromotion = async (id) => {
+        if (!confirm(`Delete promotion #${id}?`)) return;
+        try {
+            await ApiService.delete(`/admin/promotions/${id}`);
+            loadPromotions();
+        } catch (error) { alert('Failed: ' + error.message); }
     };
 });
