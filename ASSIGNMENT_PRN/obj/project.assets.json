@@ -4196,23 +4196,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\doanh\\.nuget\\packages\\": {},
+    "C:\\Users\\ACER\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
+      "projectUniqueName": "D:\\ProjectPrn232\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
       "projectName": "ASSIGNMENT_PRN",
-      "projectPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
-      "packagesPath": "C:\\Users\\doanh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\obj\\",
+      "projectPath": "D:\\ProjectPrn232\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
+      "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+      "outputPath": "D:\\ProjectPrn232\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\doanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4227,8 +4227,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\DataAccess.csproj": {
-              "projectPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\DataAccess.csproj"
+            "D:\\ProjectPrn232\\ASSIGNMENT_PRN232\\DataAccess\\DataAccess.csproj": {
+              "projectPath": "D:\\ProjectPrn232\\ASSIGNMENT_PRN232\\DataAccess\\DataAccess.csproj"
             }
           }
         }

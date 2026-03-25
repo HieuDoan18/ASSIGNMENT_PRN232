@@ -26,22 +26,39 @@ namespace ASSIGNMENT_PRN.Controllers
             return Ok(services);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateService([FromBody] Service service)
+        public class ServiceDto
         {
+            public string Name { get; set; }
+            public double Price { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateService([FromBody] ServiceDto dto)
+        {
+            if (await _context.Services.AnyAsync(s => s.Name == dto.Name))
+                return BadRequest(new { Message = "Service name already exists" });
+
+            var service = new Service
+            {
+                Name = dto.Name,
+                Price = dto.Price
+            };
             _context.Services.Add(service);
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Service created successfully", ServiceId = service.ServiceId });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateService(int id, [FromBody] Service updatedService)
+        public async Task<IActionResult> UpdateService(int id, [FromBody] ServiceDto dto)
         {
             var service = await _context.Services.FindAsync(id);
             if (service == null) return NotFound("Service not found");
 
-            service.Name = updatedService.Name;
-            service.Price = updatedService.Price;
+            if (await _context.Services.AnyAsync(s => s.Name == dto.Name && s.ServiceId != id))
+                return BadRequest(new { Message = "Service name already exists" });
+
+            service.Name = dto.Name;
+            service.Price = dto.Price;
 
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Service updated successfully" });
