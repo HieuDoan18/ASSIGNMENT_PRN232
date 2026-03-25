@@ -49,11 +49,16 @@ namespace ASSIGNMENT_PRN.Controllers
         }
 
         [HttpGet("bookings")]
-        public async Task<IActionResult> GetBookingsReport()
+        public async Task<IActionResult> GetBookingsReport([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
-            var totalBookings = await _context.Bookings.CountAsync();
-            var cancelledBookings = await _context.Bookings.CountAsync(b => b.Status == "Cancelled");
-            var completedBookings = await _context.Bookings.CountAsync(b => b.Status == "Completed");
+            var query = _context.Bookings.AsQueryable();
+
+            if (startDate.HasValue) query = query.Where(b => b.CheckInDate >= startDate.Value);
+            if (endDate.HasValue) query = query.Where(b => b.CheckInDate <= endDate.Value);
+
+            var totalBookings = await query.CountAsync();
+            var cancelledBookings = await query.CountAsync(b => b.Status == "Cancelled");
+            var completedBookings = await query.CountAsync(b => b.Status == "Completed");
 
             return Ok(new { TotalBookings = totalBookings, CancelledBookings = cancelledBookings, CompletedBookings = completedBookings });
         }
