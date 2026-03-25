@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ASSIGNMENT_PRN.Settings;
+using ASSIGNMENT_PRN.Services;
 using Microsoft.OpenApi.Models;
 
 namespace ASSIGNMENT_PRN
@@ -15,6 +16,17 @@ namespace ASSIGNMENT_PRN
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Configure CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
             // Ensure the Microsoft.EntityFrameworkCore.SqlServer package is installed  
             builder.Services.AddDbContext<HotelDbContext>(options =>
                 options.UseSqlServer(
@@ -23,6 +35,11 @@ namespace ASSIGNMENT_PRN
             // Add services to the container.  
             builder.Services.AddControllers()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            
+            // Configure Email Settings & Service
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddTransient<IEmailService, EmailService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle  
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
@@ -89,6 +106,8 @@ namespace ASSIGNMENT_PRN
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAll"); // Enable CORS
 
             app.UseAuthentication();
             app.UseAuthorization();

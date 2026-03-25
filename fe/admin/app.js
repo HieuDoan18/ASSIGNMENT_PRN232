@@ -1,0 +1,461 @@
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) { window.location.href = '../index.html'; return; }
+
+    const sections = ['dashboardSection', 'usersSection', 'roomsSection', 'roomTypesSection', 'servicesSection'];
+    const navItems = document.querySelectorAll('.nav-item');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            navItems.forEach(n => n.classList.remove('active'));
+            item.classList.add('active');
+            const targetId = item.getAttribute('data-target');
+            sections.forEach(sec => document.getElementById(sec).classList.add('hidden'));
+            document.getElementById(targetId).classList.remove('hidden');
+            if (targetId === 'dashboardSection') loadReports();
+            if (targetId === 'usersSection') loadUsers();
+            if (targetId === 'roomsSection') loadRooms();
+            if (targetId === 'roomTypesSection') loadRoomTypes();
+            if (targetId === 'servicesSection') loadServices();
+        });
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('jwt_token');
+        window.location.href = '../index.html';
+    });
+
+    loadReports();
+
+    // ------------------- REPORTS -------------------
+    document.getElementById('refreshReportsBtn').addEventListener('click', loadReports);
+
+    async function loadReports() {
+        try {
+            const [rev, bks, occ] = await Promise.all([
+                ApiService.get('/admin/reports/revenue'),
+                ApiService.get('/admin/reports/bookings'),
+                ApiService.get(`/admin/reports/occupancy?date=${new Date().toISOString()}`)
+            ]);
+            document.getElementById('repRevenue').textContent = `$${rev.totalRevenue || 0}`;
+            document.getElementById('repBookings').textContent = bks.totalBookings || 0;
+            document.getElementById('repOccupancy').textContent = `${(occ.occupancyRatePercentage || 0).toFixed(1)}%`;
+        } catch (error) { console.error("Failed to load reports", error); }
+    }
+
+    // ------------------- USERS (full CRUD) -------------------
+    const userModal = document.getElementById('userModal');
+    const userDetailModal = document.getElementById('userDetailModal');
+    const userModalTitle = document.getElementById('userModalTitle');
+    const userModalForm = document.getElementById('userModalForm');
+    const userModalAlert = document.getElementById('userModalAlert');
+
+    const openModal = (isEdit = false) => {
+        userModal.classList.remove('hidden');
+        userModalAlert.style.display = 'none';
+        userModalTitle.textContent = isEdit ? 'Edit User' : 'Create User';
+        document.getElementById('modalPasswordGroup').style.display = isEdit ? 'none' : 'block';
+        if (!isEdit) userModalForm.reset();
+    };
+    const closeModal = () => userModal.classList.add('hidden');
+
+    document.getElementById('openCreateUserBtn').addEventListener('click', () => {
+        document.getElementById('modalUserId').value = '';
+        openModal(false);
+    });
+    document.getElementById('closeUserModal').addEventListener('click', closeModal);
+    document.getElementById('closeUserModalBtn').addEventListener('click', closeModal);
+
+    document.getElementById('closeUserDetail').addEventListener('click', () => userDetailModal.classList.add('hidden'));
+    document.getElementById('closeUserDetailBtn').addEventListener('click', () => userDetailModal.classList.add('hidden'));
+
+    // Create or Update user on form submit
+    userModalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('modalUserId').value;
+        const isEdit = !!id;
+        const btn = document.getElementById('userModalSaveBtn');
+        btn.textContent = 'Saving...'; btn.disabled = true;
+
+        const payload = {
+            fullName: document.getElementById('modalFullName').value,
+            email: document.getElementById('modalEmail').value,
+            role: document.getElementById('modalRole').value,
+        };
+        if (!isEdit) payload.password = document.getElementById('modalPassword').value;
+
+        try {
+            if (isEdit) {
+                await ApiService.put(`/admin/users/${id}`, payload);
+            } else {
+                await ApiService.post('/admin/users', payload);
+            }
+            closeModal();
+            loadUsers();
+        } catch (error) {
+            userModalAlert.textContent = error.message;
+            userModalAlert.className = 'alert alert-error';
+            userModalAlert.style.display = 'block';
+        } finally {
+            btn.textContent = 'Save'; btn.disabled = false;
+        }
+    });
+
+    async function loadUsers() {
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">Loading...</td></tr>';
+        try {
+            const data = await ApiService.get('/admin/users');
+            tbody.innerHTML = '';
+            data.forEach(u => {
+                const isLocked = u.isLocked;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${u.userId}</td>
+                    <td>${u.fullName || '-'}</td>
+                    <td>${u.email}</td>
+                    <td>
+                        <span class="role-badge">${u.role}</span>
+                    </td>
+                    <td>
+                        <span style="color: ${isLocked ? '#EF4444' : '#10B981'}; font-weight:600;">
+                            ${isLocked ? '🔒 Locked' : '✅ Active'}
+                        </span>
+                    </td>
+                    <td>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <button class="btn btn-secondary btn-xs" onclick="viewUser(${u.userId})">Detail</button>
+                            <button class="btn btn-warning btn-xs" onclick="editUser(${u.userId}, '${u.fullName}', '${u.email}', '${u.role}')">Edit</button>
+                            <button class="btn btn-secondary btn-xs" onclick="changeRole(${u.userId})">Role</button>
+                            <button class="btn btn-secondary btn-xs" onclick="toggleLock(${u.userId})">${isLocked ? 'Unlock' : 'Lock'}</button>
+                            <button class="btn btn-danger btn-xs" onclick="deleteUser(${u.userId})">Delete</button>
+                        </div>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center text-error">Failed: ${error.message}</td></tr>`;
+        }
+    }
+
+    window.viewUser = async (id) => {
+        try {
+            const u = await ApiService.get(`/admin/users/${id}`);
+            document.getElementById('userDetailContent').innerHTML = `
+                <p><strong>ID:</strong> ${u.userId}</p>
+                <p><strong>Full Name:</strong> ${u.fullName || '-'}</p>
+                <p><strong>Email:</strong> ${u.email}</p>
+                <p><strong>Role:</strong> ${u.role}</p>
+                <p><strong>Status:</strong> ${u.isLocked ? '🔒 Locked' : '✅ Active'}</p>
+                <p><strong>Avatar:</strong> ${u.avatar ? `<img src="${u.avatar}" width="50" style="border-radius:50%; vertical-align:middle;">` : 'None'}</p>`;
+            userDetailModal.classList.remove('hidden');
+        } catch (error) { alert('Failed to load user: ' + error.message); }
+    };
+
+    window.editUser = (id, fullName, email, role) => {
+        document.getElementById('modalUserId').value = id;
+        document.getElementById('modalFullName').value = fullName;
+        document.getElementById('modalEmail').value = email;
+        document.getElementById('modalRole').value = role;
+        openModal(true);
+    };
+
+    window.changeRole = async (id) => {
+        const newRole = prompt('Enter new role (Admin, Staff, Customer):');
+        if (!newRole) return;
+        try {
+            await ApiService.put(`/admin/users/${id}/role`, { role: newRole });
+            loadUsers();
+        } catch (error) { alert('Failed: ' + error.message); }
+    };
+
+    window.toggleLock = async (id) => {
+        try {
+            await ApiService.put(`/admin/users/${id}/lock`, {});
+            loadUsers();
+        } catch (error) { alert('Failed: ' + error.message); }
+    };
+
+    window.deleteUser = async (id) => {
+        if (!confirm(`Delete user #${id}? This action cannot be undone.`)) return;
+        try {
+            await ApiService.delete(`/admin/users/${id}`);
+            loadUsers();
+        } catch (error) { alert('Failed: ' + error.message); }
+    };
+
+    // ------------------- ROOMS (full CRUD) -------------------
+    const roomModal = document.getElementById('roomModal');
+    const roomModalForm = document.getElementById('roomModalForm');
+    const roomModalAlert = document.getElementById('roomModalAlert');
+    let roomTypeCache = [];
+
+    const openRoomModal = async (isEdit = false) => {
+        roomModal.classList.remove('hidden');
+        document.getElementById('roomModalTitle').textContent = isEdit ? 'Edit Room' : 'Create Room';
+        roomModalAlert.style.display = 'none';
+        if (!isEdit) roomModalForm.reset();
+        // Load room types for dropdown
+        await loadRoomTypeDropdown();
+    };
+    const closeRoomModal = () => roomModal.classList.add('hidden');
+
+    document.getElementById('openCreateRoomBtn').addEventListener('click', () => {
+        document.getElementById('roomModalId').value = '';
+        openRoomModal(false);
+    });
+    document.getElementById('closeRoomModal').addEventListener('click', closeRoomModal);
+    document.getElementById('closeRoomModalBtn').addEventListener('click', closeRoomModal);
+
+    async function loadRoomTypeDropdown() {
+        try {
+            if (roomTypeCache.length === 0) {
+                roomTypeCache = await ApiService.get('/admin/room-types');
+            }
+            const sel = document.getElementById('roomModalTypeId');
+            sel.innerHTML = '<option value="">-- No Type --</option>';
+            roomTypeCache.forEach(rt => {
+                const opt = document.createElement('option');
+                opt.value = rt.roomTypeId;
+                opt.textContent = rt.name;
+                opt.dataset.basePrice = rt.basePrice || 0;
+                sel.appendChild(opt);
+            });
+        } catch (e) { console.error('Could not load room types', e); }
+    }
+
+    // Auto-fill price when room type is selected
+    document.getElementById('roomModalTypeId').addEventListener('change', function () {
+        const selected = this.options[this.selectedIndex];
+        const basePrice = selected.dataset.basePrice;
+        if (basePrice && basePrice > 0) {
+            document.getElementById('roomModalPrice').value = basePrice;
+        }
+    });
+
+    roomModalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('roomModalId').value;
+        const isEdit = !!id;
+        const btn = document.getElementById('roomModalSaveBtn');
+        btn.textContent = 'Saving...'; btn.disabled = true;
+
+        const payload = {
+            roomNumber: document.getElementById('roomModalNumber').value,
+            price: parseFloat(document.getElementById('roomModalPrice').value),
+            status: document.getElementById('roomModalStatus').value,
+            roomTypeId: parseInt(document.getElementById('roomModalTypeId').value) || null
+        };
+
+        try {
+            if (isEdit) {
+                await ApiService.put(`/admin/rooms/${id}`, payload);
+            } else {
+                await ApiService.post('/admin/rooms', payload);
+            }
+            closeRoomModal();
+            loadRooms();
+        } catch (error) {
+            roomModalAlert.textContent = error.message;
+            roomModalAlert.className = 'alert alert-error';
+            roomModalAlert.style.display = 'block';
+        } finally {
+            btn.textContent = 'Save'; btn.disabled = false;
+        }
+    });
+
+    async function loadRooms() {
+        const tbody = document.getElementById('roomsTableBody');
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">Loading...</td></tr>';
+        try {
+            const data = await ApiService.get('/admin/rooms');
+            tbody.innerHTML = '';
+            if (!data.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">No rooms found.</td></tr>';
+                return;
+            }
+            const statusColor = { Available: '#10B981', Occupied: '#EF4444', Maintenance: '#F59E0B' };
+            data.forEach(r => {
+                const color = statusColor[r.status] || '#94A3B8';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.roomId}</td>
+                    <td><strong>${r.roomNumber}</strong></td>
+                    <td>${r.roomType ? r.roomType.name : '—'}</td>
+                    <td>$${r.price}</td>
+                    <td><span style="color:${color}; font-weight:600;">● ${r.status}</span></td>
+                    <td>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <button class="btn btn-warning btn-xs" onclick="editRoom(${r.roomId}, '${r.roomNumber}', ${r.price}, '${r.status}', ${r.roomTypeId || 'null'})">Edit</button>
+                            <button class="btn btn-secondary btn-xs" onclick="changeRoomStatus(${r.roomId})">Status</button>
+                            <button class="btn btn-danger btn-xs" onclick="deleteRoom(${r.roomId})">Delete</button>
+                        </div>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center text-error">Failed: ${error.message}</td></tr>`;
+        }
+    }
+
+    window.editRoom = async (id, number, price, status, roomTypeId) => {
+        document.getElementById('roomModalId').value = id;
+        document.getElementById('roomModalNumber').value = number;
+        document.getElementById('roomModalPrice').value = price;
+        document.getElementById('roomModalStatus').value = status;
+        await openRoomModal(true);
+        if (roomTypeId) document.getElementById('roomModalTypeId').value = roomTypeId;
+    };
+
+    window.changeRoomStatus = async (roomId) => {
+        const s = prompt("New status (Available, Occupied, Maintenance):");
+        if (!s) return;
+        try {
+            await fetch(`http://localhost:5034/api/admin/rooms/${roomId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt_token')}` },
+                body: JSON.stringify(s)
+            });
+            loadRooms();
+        } catch (error) { alert(error.message); }
+    };
+
+    window.deleteRoom = async (id) => {
+        if (!confirm(`Delete room #${id}? This cannot be undone.`)) return;
+        try {
+            await ApiService.delete(`/admin/rooms/${id}`);
+            loadRooms();
+        } catch (error) { alert('Failed: ' + error.message); }
+    };
+
+    // ------------------- ROOM TYPES (full CRUD) -------------------
+    const roomTypeModal = document.getElementById('roomTypeModal');
+    const roomTypeModalForm = document.getElementById('roomTypeModalForm');
+    const roomTypeModalAlert = document.getElementById('roomTypeModalAlert');
+
+    const openRoomTypeModal = (isEdit = false) => {
+        roomTypeModal.classList.remove('hidden');
+        document.getElementById('roomTypeModalTitle').textContent = isEdit ? 'Edit Room Type' : 'Create Room Type';
+        roomTypeModalAlert.style.display = 'none';
+        if (!isEdit) roomTypeModalForm.reset();
+    };
+    const closeRoomTypeModal = () => { roomTypeModal.classList.add('hidden'); roomTypeCache = []; }; // bust cache
+
+    document.getElementById('openCreateRoomTypeBtn').addEventListener('click', () => {
+        document.getElementById('roomTypeModalId').value = '';
+        openRoomTypeModal(false);
+    });
+    document.getElementById('closeRoomTypeModal').addEventListener('click', closeRoomTypeModal);
+    document.getElementById('closeRoomTypeModalBtn').addEventListener('click', closeRoomTypeModal);
+
+    roomTypeModalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('roomTypeModalId').value;
+        const isEdit = !!id;
+        const btn = document.getElementById('roomTypeModalSaveBtn');
+        btn.textContent = 'Saving...'; btn.disabled = true;
+
+        const payload = {
+            name: document.getElementById('roomTypeModalName').value,
+            basePrice: parseFloat(document.getElementById('roomTypeModalBasePrice').value) || 0,
+            description: document.getElementById('roomTypeModalDesc').value
+        };
+
+        try {
+            if (isEdit) {
+                await ApiService.put(`/admin/room-types/${id}`, payload);
+            } else {
+                await ApiService.post('/admin/room-types', payload);
+            }
+            closeRoomTypeModal();
+            loadRoomTypes();
+        } catch (error) {
+            roomTypeModalAlert.textContent = error.message;
+            roomTypeModalAlert.className = 'alert alert-error';
+            roomTypeModalAlert.style.display = 'block';
+        } finally {
+            btn.textContent = 'Save'; btn.disabled = false;
+        }
+    });
+
+    async function loadRoomTypes() {
+        const tbody = document.getElementById('roomTypesTableBody');
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading...</td></tr>';
+        try {
+            const data = await ApiService.get('/admin/room-types');
+            roomTypeCache = data; // also refresh the cache
+            tbody.innerHTML = '';
+            if (!data.length) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No room types found.</td></tr>';
+                return;
+            }
+            data.forEach(rt => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${rt.roomTypeId}</td>
+                    <td><strong>${rt.name}</strong></td>
+                    <td>${rt.description || '—'}</td>
+                    <td>
+                        <div style="display:flex; gap:6px;">
+                            <button class="btn btn-warning btn-xs" onclick="editRoomType(${rt.roomTypeId}, '${rt.name}', ${rt.basePrice || 0}, '${(rt.description || '').replace(/'/g, "\\'")}')">Edit</button>
+                            <button class="btn btn-danger btn-xs" onclick="deleteRoomType(${rt.roomTypeId})">Delete</button>
+                        </div>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center text-error">Failed: ${error.message}</td></tr>`;
+        }
+    }
+
+    window.editRoomType = (id, name, basePrice, desc) => {
+        document.getElementById('roomTypeModalId').value = id;
+        document.getElementById('roomTypeModalName').value = name;
+        document.getElementById('roomTypeModalBasePrice').value = basePrice;
+        document.getElementById('roomTypeModalDesc').value = desc;
+        openRoomTypeModal(true);
+    };
+
+    window.deleteRoomType = async (id) => {
+        if (!confirm(`Delete room type #${id}?`)) return;
+        try {
+            await ApiService.delete(`/admin/room-types/${id}`);
+            roomTypeCache = [];
+            loadRoomTypes();
+        } catch (error) { alert('Failed: ' + error.message); }
+    };
+
+    // ------------------- SERVICES -------------------
+    async function loadServices() {
+        const tbody = document.getElementById('servicesTableBody');
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center">Loading...</td></tr>';
+        try {
+            const data = await ApiService.get('/admin/services');
+            tbody.innerHTML = '';
+            data.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${s.name}</td>
+                    <td>$${s.price}</td>
+                    <td><button class="btn btn-secondary btn-xs" onclick="promptPrice(${s.serviceId})">Update Price</button></td>`;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-error">Failed: ${error.message}</td></tr>`;
+        }
+    }
+
+    window.promptPrice = async (serviceId) => {
+        const p = prompt("Enter new price:");
+        if (!p) return;
+        try {
+            await fetch(`http://localhost:5034/api/admin/services/${serviceId}/price`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt_token')}` },
+                body: JSON.stringify(parseFloat(p))
+            });
+            loadServices();
+        } catch (error) { alert(error.message); }
+    };
+});

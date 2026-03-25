@@ -301,4 +301,3 @@ C:\Users\Hoang\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\obj\Debug\net8.0\ASSIGNMENT_PRN.
 C:\Users\Hoang\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\obj\Debug\net8.0\ref\ASSIGNMENT_PRN.dll
 C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\ASSIGNMENT_PRN\obj\Debug\net8.0\ASSIGNMENT_PRN.sourcelink.json
 C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\ASSIGNMENT_PRN\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\ASSIGNMENT_PRN\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

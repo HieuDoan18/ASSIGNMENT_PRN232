@@ -10,7 +10,7 @@ namespace BusinessObjects.Entities
     {
         public int RoomId { get; set; }
 
-        public int HotelId { get; set; }
+        public int? HotelId { get; set; }
 
         public string RoomNumber { get; set; }
 
@@ -19,10 +19,10 @@ namespace BusinessObjects.Entities
         public string Status { get; set; }
 
         public int? RoomTypeId { get; set; }
-        public RoomType RoomType { get; set; }
+        public RoomType? RoomType { get; set; }
 
-        public Hotel Hotel { get; set; }
+        public Hotel? Hotel { get; set; }
 
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }

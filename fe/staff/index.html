@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Hotel Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <div class="glass-header">
+        <h2>Hotel Management - Staff Portal</h2>
+        <div>
+            <span id="userNameDisplay" class="text-muted" style="margin-right: 15px;">Staff User</span>
+            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <div class="dashboard-layout">
+        <div class="sidebar glass-panel" style="border-radius: 0; border-top: none; border-bottom: none; border-left: none;">
+            <a href="#" class="nav-item active" data-target="inventorySection">Manage Inventory</a>
+            <a href="#" class="nav-item" data-target="bookingsSection">All Bookings</a>
+        </div>
+
+        <div class="container" style="max-height: calc(100vh - 70px); overflow-y: auto;">
+            
+            <!-- Inventory Section -->
+            <section id="inventorySection" class="glass-panel" style="padding: 2rem; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                    <h3>Manage Hotel Inventory</h3>
+                    <button class="btn btn-primary" onclick="alert('Implement adding inventory here')">+ New Item</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Quantity Available</th>
+                                <th>Unit Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                            <tr><td colspan="4" class="text-center">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- All Bookings Section -->
+            <section id="bookingsSection" class="glass-panel hidden" style="padding: 2rem; margin-bottom: 2rem;">
+                <h3>Active Bookings</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Room Number</th>
+                                <th>Dates</th>
+                                <th>Status</th>
+                                <th>System Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allBookingsTableBody">
+                            <tr><td colspan="5" class="text-center">Loading... (Require an Admin/Staff AllBookings endpoint in backend for full feature)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
