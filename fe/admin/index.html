@@ -24,6 +24,7 @@
             <a href="#" class="nav-item" data-target="roomsSection">Manage Rooms</a>
             <a href="#" class="nav-item" data-target="roomTypesSection">Room Types</a>
             <a href="#" class="nav-item" data-target="servicesSection">Manage Services</a>
+            <a href="#" class="nav-item" data-target="pricingSection">Pricing & Promotions</a>
         </div>
 
         <div class="container" style="max-height: calc(100vh - 70px); overflow-y: auto;">
@@ -31,6 +32,18 @@
             <!-- Dashboard / Reports Section -->
             <section id="dashboardSection" class="glass-panel" style="padding: 2rem; margin-bottom: 2rem;">
                 <h3>System Overview (Reports)</h3>
+                <div style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 0.85rem;">Start Date</label>
+                        <input type="date" id="reportStartDate" style="padding: 0.5rem;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 0.85rem;">End Date</label>
+                        <input type="date" id="reportEndDate" style="padding: 0.5rem;">
+                    </div>
+                    <button class="btn btn-primary" id="refreshReportsBtn" style="height: fit-content;">Filter & Refresh</button>
+                    <button class="btn btn-secondary" id="clearReportFilterBtn" style="height: fit-content;">Clear Filter</button>
+                </div>
                 <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
                     <div class="glass-panel text-center" style="flex: 1; padding: 1.5rem;">
                         <h4 class="text-muted">Total Revenue</h4>
@@ -44,8 +57,15 @@
                         <h4 class="text-muted">Total Bookings</h4>
                         <h2 id="repBookings" class="text-primary mt-4">0</h2>
                     </div>
+                    <div class="glass-panel text-center" style="flex: 1; padding: 1.5rem;">
+                        <h4 class="text-muted">Cancelled</h4>
+                        <h2 id="repCancelled" class="text-primary mt-4">0</h2>
+                    </div>
+                    <div class="glass-panel text-center" style="flex: 1; padding: 1.5rem;">
+                        <h4 class="text-muted">Completed</h4>
+                        <h2 id="repCompleted" class="text-primary mt-4">0</h2>
+                    </div>
                 </div>
-                <button class="btn btn-primary" id="refreshReportsBtn">Refresh Data</button>
             </section>
 
             <!-- Users Section -->
@@ -123,21 +143,74 @@
 
             <!-- Services Section -->
             <section id="servicesSection" class="glass-panel hidden" style="padding: 2rem; margin-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                     <h3>Manage Services</h3>
-                    <button class="btn btn-primary" onclick="alert('Implement adding service here')">+ New Service</button>
+                    <button class="btn btn-primary" id="openCreateServiceBtn">+ New Service</button>
                 </div>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="servicesTableBody">
-                            <tr><td colspan="3" class="text-center">Loading...</td></tr>
+                            <tr><td colspan="4" class="text-center">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pricing & Promotions Section -->
+            <section id="pricingSection" class="glass-panel hidden" style="padding: 2rem; margin-bottom: 2rem;">
+                <!-- Pricing Table -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Pricing (Seasonal)</h3>
+                    <button class="btn btn-primary" id="openCreatePricingBtn">+ New Pricing</button>
+                </div>
+                <div class="table-container" style="margin-bottom: 3rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Room Type</th>
+                                <th>Season</th>
+                                <th>Multiplier</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pricingTableBody">
+                            <tr><td colspan="8" class="text-center">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Promotions Table -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Promotions</h3>
+                    <button class="btn btn-primary" id="openCreatePromotionBtn">+ New Promotion</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Discount %</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="promotionsTableBody">
+                            <tr><td colspan="7" class="text-center">Loading...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -213,7 +286,7 @@
                 <input type="hidden" id="roomModalId">
                 <div class="form-group">
                     <label>Room Number</label>
-                    <input type="text" id="roomModalNumber" required placeholder="e.g. 101">
+                    <input type="number" id="roomModalNumber" required placeholder="e.g. 101">
                 </div>
                 <div class="form-group">
                     <label>Price per Night ($)</label>
@@ -264,6 +337,104 @@
                 <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
                     <button type="submit" class="btn btn-primary" style="flex:1;" id="roomTypeModalSaveBtn">Save</button>
                     <button type="button" class="btn btn-secondary" id="closeRoomTypeModalBtn" style="flex:1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div id="serviceModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 id="serviceModalTitle">Create Service</h3>
+                <span id="closeServiceModal" style="cursor: pointer; font-size: 1.5rem; color: var(--text-muted);">&times;</span>
+            </div>
+            <div id="serviceModalAlert" class="alert" style="display:none;"></div>
+            <form id="serviceModalForm">
+                <input type="hidden" id="serviceModalId">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="serviceModalName" required>
+                </div>
+                <div class="form-group">
+                    <label>Price ($)</label>
+                    <input type="number" id="serviceModalPrice" required min="0" step="0.01">
+                </div>
+                <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;" id="serviceModalSaveBtn">Save</button>
+                    <button type="button" class="btn btn-secondary" id="closeServiceModalBtn" style="flex:1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pricing Modal -->
+    <div id="pricingModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 id="pricingModalTitle">Create Pricing</h3>
+                <span id="closePricingModal" style="cursor: pointer; font-size: 1.5rem; color: var(--text-muted);">&times;</span>
+            </div>
+            <div id="pricingModalAlert" class="alert" style="display:none;"></div>
+            <form id="pricingModalForm">
+                <input type="hidden" id="pricingModalId">
+                <div class="form-group">
+                    <label>Room Type</label>
+                    <select id="pricingModalRoomType" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Season Name</label>
+                    <input type="text" id="pricingModalSeason" required placeholder="e.g. Summer">
+                </div>
+                <div class="form-group">
+                    <label>Multiplier</label>
+                    <input type="number" id="pricingModalMultiplier" required min="0.1" step="0.1" placeholder="e.g. 1.5">
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" id="pricingModalStart" required>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" id="pricingModalEnd" required>
+                </div>
+                <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;" id="pricingModalSaveBtn">Save</button>
+                    <button type="button" class="btn btn-secondary" id="closePricingModalBtn" style="flex:1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Promotion Modal -->
+    <div id="promotionModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 id="promotionModalTitle">Create Promotion</h3>
+                <span id="closePromotionModal" style="cursor: pointer; font-size: 1.5rem; color: var(--text-muted);">&times;</span>
+            </div>
+            <div id="promotionModalAlert" class="alert" style="display:none;"></div>
+            <form id="promotionModalForm">
+                <input type="hidden" id="promotionModalId">
+                <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" id="promotionModalCode" required placeholder="e.g. SALE20">
+                </div>
+                <div class="form-group">
+                    <label>Discount %</label>
+                    <input type="number" id="promotionModalDiscount" required min="0" max="100" step="0.1" placeholder="e.g. 20">
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" id="promotionModalStart" required>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" id="promotionModalEnd" required>
+                </div>
+                <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;" id="promotionModalSaveBtn">Save</button>
+                    <button type="button" class="btn btn-secondary" id="closePromotionModalBtn" style="flex:1;">Cancel</button>
                 </div>
             </form>
         </div>

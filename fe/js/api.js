@@ -29,6 +29,9 @@ class ApiService {
                 const errorJson = JSON.parse(errorText);
                 throw new Error(errorJson.message || errorJson.title || 'An error occurred');
             } catch (e) {
+                if (e instanceof SyntaxError) {
+                    throw new Error(`Server returned an invalid response (HTTP ${response.status}).`);
+                }
                 if (e.message && e.message !== 'An error occurred') throw e;
                 throw new Error(errorText || `HTTP Error ${response.status}`);
             }
