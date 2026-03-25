@@ -20,9 +20,11 @@
     <div class="dashboard-layout">
         <!-- Sidebar Navigation -->
         <div class="sidebar glass-panel" style="border-radius: 0; border-top: none; border-bottom: none; border-left: none;">
-            <a href="#" class="nav-item active" data-target="roomsSection">Book a Room</a>
-            <a href="#" class="nav-item" data-target="bookingsSection">My Bookings</a>
-            <a href="#" class="nav-item" data-target="profileSection">Profile</a>
+            <a href="#" class="nav-item active" data-target="roomsSection">🔍 Find Rooms</a>
+            <a href="#" class="nav-item" data-target="bookingsSection">📋 My Bookings</a>
+            <a href="#" class="nav-item" data-target="profileSection">👤 Profile</a>
+            <a href="#" class="nav-item" data-target="reviewsSection">⭐ My Reviews</a>
+            <a href="#" class="nav-item" data-target="requestsSection">🎧 Support</a>
         </div>
 
         <!-- Main Content Area -->
@@ -30,67 +32,63 @@
             
             <!-- Rooms Section -->
             <section id="roomsSection" class="glass-panel" style="padding: 2rem; margin-bottom: 2rem;">
-                <h3>Available Rooms</h3>
-                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
-                    <div class="form-group" style="flex: 1; margin: 0;">
-                        <input type="date" id="searchCheckIn" placeholder="Check-In">
+                <h3 style="margin-bottom: 1.5rem;">Find Available Rooms</h3>
+
+                <!-- Search Filters -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 10px; align-items: end; margin-bottom: 1.5rem;">
+                    <div class="form-group" style="margin: 0;">
+                        <label>Check-In Date</label>
+                        <input type="date" id="searchCheckIn">
                     </div>
-                    <div class="form-group" style="flex: 1; margin: 0;">
-                        <input type="date" id="searchCheckOut" placeholder="Check-Out">
+                    <div class="form-group" style="margin: 0;">
+                        <label>Check-Out Date</label>
+                        <input type="date" id="searchCheckOut">
                     </div>
-                    <button class="btn btn-primary" id="searchRoomsBtn">Search</button>
+                    <div class="form-group" style="margin: 0;">
+                        <label>Room Type</label>
+                        <select id="searchRoomType">
+                            <option value="">All Types</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label>Max Price/Night ($)</label>
+                        <input type="number" id="searchMaxPrice" placeholder="Any" min="0">
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-primary" id="searchRoomsBtn">Search</button>
+                        <button class="btn btn-secondary" id="clearSearchBtn">Clear</button>
+                    </div>
                 </div>
                 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Room No</th>
-                                <th>Type</th>
-                                <th>Price/Night</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="roomsTableBody">
-                            <tr><td colspan="5" class="text-center">Loading rooms...</td></tr>
-                        </tbody>
-                    </table>
+                <!-- Room Cards Grid -->
+                <div id="roomsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+                    <div class="glass-panel" style="padding: 1.5rem; text-align: center; color: var(--text-muted);">Loading rooms...</div>
                 </div>
             </section>
 
             <!-- Bookings Section -->
             <section id="bookingsSection" class="glass-panel hidden" style="padding: 2rem; margin-bottom: 2rem;">
-                <h3>My Bookings</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>My Bookings</h3>
+                    <button class="btn btn-secondary btn-xs" id="refreshBookingsBtn">↻ Refresh</button>
+                </div>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Room Number</th>
-                                <th>Dates</th>
+                                <th>#ID</th>
+                                <th>Room</th>
+                                <th>Check-In</th>
+                                <th>Check-Out</th>
                                 <th>Total Price</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="bookingsTableBody">
-                            <tr><td colspan="6" class="text-center">Loading bookings...</td></tr>
+                            <tr><td colspan="7" class="text-center">Loading bookings...</td></tr>
                         </tbody>
                     </table>
-                </div>
-                
-                <!-- Services & Requests Modal placeholder -->
-                <div id="bookingDetailsContainer" class="mt-4 hidden p-4" style="border-top: 1px solid var(--surface-border); padding-top: 1rem;">
-                    <h4 id="detailsTitle">Manage Booking #</h4>
-                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                        <select id="serviceSelect" class="form-group" style="flex: 1; margin: 0;"></select>
-                        <input type="number" id="serviceQty" value="1" min="1" class="form-group" style="width: 80px; margin: 0;">
-                        <button class="btn btn-secondary" id="addServiceBtn">Add Service</button>
-                    </div>
-                    <div style="margin-top: 1rem;">
-                        <button class="btn btn-danger" id="cancelBookingBtn">Cancel Booking</button>
-                    </div>
                 </div>
             </section>
 
@@ -137,17 +135,201 @@
                             <input type="password" id="confirmPassword" required minlength="6">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Change Password</button>
-
-                        <!-- Removed Forgot Password section relative to user request -->
                     </form>
                 </div>
             </section>
+            <!-- Reviews Section -->
+            <section id="reviewsSection" class="glass-panel hidden" style="padding: 2rem; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>My Reviews</h3>
+                    <button class="btn btn-secondary btn-xs" id="refreshReviewsBtn">↻ Refresh</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Booking #</th>
+                                <th>Room</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewsTableBody">
+                            <tr><td colspan="6" class="text-center">Loading reviews...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
+            <!-- Support Requests Section -->
+            <section id="requestsSection" class="glass-panel hidden" style="padding: 2rem; margin-bottom: 2rem;">
+                <h3>Submit a Request or Complaint</h3>
+                <div id="requestAlert" class="alert" style="display:none;"></div>
+                <form id="requestForm" style="max-width: 600px; margin-top: 1rem;">
+                    <div class="form-group">
+                        <label>Related Booking (Optional)</label>
+                        <select id="requestBookingId">
+                            <option value="">-- None --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Message / Complaint</label>
+                        <textarea id="requestContent" rows="5" required placeholder="Describe your issue or request..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">✉️ Send Request</button>
+                </form>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Room Detail & Book Modal -->
+    <div id="roomDetailModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel" style="max-width: 520px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 id="roomDetailTitle">Room Details</h3>
+                <span id="closeRoomDetail" style="cursor: pointer; font-size: 1.5rem; color: var(--text-muted);">&times;</span>
+            </div>
+            <div id="roomDetailContent" style="margin-bottom: 1.5rem; line-height: 2;"></div>
+            <div id="bookingFormContainer">
+                <h4 style="margin-bottom: 1rem; color: var(--text-muted);">📅 Book this Room</h4>
+                <div id="bookingAlert" class="alert" style="display:none;"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group" style="margin:0;">
+                        <label>Check-In Date</label>
+                        <input type="date" id="bookCheckIn" required>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>Check-Out Date</label>
+                        <input type="date" id="bookCheckOut" required>
+                    </div>
+                </div>
+                <div id="bookingPricePreview" style="margin: 1rem 0; padding: 0.75rem; background: rgba(79,70,229,0.1); border-radius: 8px; display: none;">
+                    <span class="text-muted">Estimated Total: </span>
+                    <strong id="estTotal" style="color: var(--primary-color);">$0</strong>
+                </div>
+                <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                    <button class="btn btn-primary" id="confirmBookBtn" style="flex: 1;">✔ Confirm Booking</button>
+                    <button class="btn btn-secondary" id="closeRoomDetailBtn" style="flex: 1;">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Detail Modal -->
+    <div id="bookingDetailModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel" style="max-width: 560px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 id="bookingDetailTitle">Booking Details</h3>
+                <span id="closeBookingDetail" style="cursor: pointer; font-size: 1.5rem; color: var(--text-muted);">&times;</span>
+            </div>
+            <div id="bookingDetailContent" style="margin-bottom: 1.5rem; line-height: 2;"></div>
+            
+            <!-- Add Service -->
+            <div style="border-top: 1px solid var(--surface-border); padding-top: 1rem; margin-bottom: 1rem;">
+                <h4 style="margin-bottom: 0.75rem; color: var(--text-muted);">➕ Add Service</h4>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <select id="serviceSelect" style="flex: 1; padding: 0.6rem; background: rgba(15,23,42,0.6); border: 1px solid var(--surface-border); border-radius: 8px; color: var(--text-main);">
+                        <option value="">Select a service...</option>
+                    </select>
+                    <input type="number" id="serviceQty" value="1" min="1" style="width: 70px; padding: 0.6rem; background: rgba(15,23,42,0.6); border: 1px solid var(--surface-border); border-radius: 8px; color: var(--text-main);">
+                    <button class="btn btn-secondary btn-xs" id="addServiceBtn">Add</button>
+                </div>
+            </div>
+
+            <div id="cancelBtnContainer" style="margin-top: 0.5rem;">
+                <button class="btn btn-danger" id="cancelBookingBtn" style="width: 100%;">🚫 Cancel Booking</button>
+            </div>
+            <button class="btn btn-secondary" id="closeBookingDetailBtn" style="width: 100%; margin-top: 0.5rem;">Close</button>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="../js/api.js"></script>
     <script src="app.js"></script>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel" style="max-width: 560px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h3>🧾 Invoice</h3>
+                <span id="closeInvoiceModal" style="cursor:pointer; font-size:1.5rem; color:var(--text-muted);">&times;</span>
+            </div>
+            <div id="invoiceContent" style="line-height:2.2;"></div>
+
+            <!-- Promo Code -->
+            <div style="border-top:1px solid var(--surface-border); padding-top:1rem; margin:1rem 0;">
+                <h4 style="margin-bottom:0.75rem; color:var(--text-muted);">🎟️ Promo Code</h4>
+                <div style="display:flex; gap:0.75rem;">
+                    <input type="text" id="promoCodeInput" placeholder="Enter code (e.g. SUMMER20)" style="flex:1;">
+                    <button class="btn btn-secondary" id="applyPromoBtn">Apply</button>
+                </div>
+                <div id="promoResult" style="margin-top:0.75rem; font-size:0.875rem; display:none;"></div>
+            </div>
+
+            <button class="btn btn-primary" id="openPaymentBtn" style="width:100%; margin-top:0.5rem;">💳 Proceed to Payment</button>
+            <button class="btn btn-secondary" id="printInvoiceBtn" style="width:100%; margin-top:0.5rem;">🖨️ Print</button>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel" style="max-width: 440px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h3>💳 Payment</h3>
+                <span id="closePaymentModal" style="cursor:pointer; font-size:1.5rem; color:var(--text-muted);">&times;</span>
+            </div>
+            <div id="paymentAlert" class="alert" style="display:none;"></div>
+            <div style="margin-bottom:1rem; padding:0.75rem; background:rgba(79,70,229,0.1); border-radius:8px;">
+                Amount due: <strong id="paymentAmount" style="color:var(--primary-color); font-size:1.1rem;">$0</strong>
+            </div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="paymentMethod">
+                    <option value="CreditCard">💳 Credit Card</option>
+                    <option value="DebitCard">🏦 Debit Card</option>
+                    <option value="Cash">💵 Cash</option>
+                    <option value="BankTransfer">🏛 Bank Transfer</option>
+                    <option value="Momo">📱 MoMo</option>
+                    <option value="ZaloPay">📱 ZaloPay</option>
+                </select>
+            </div>
+            <div style="display:flex; gap:0.75rem; margin-top:1rem;">
+                <button class="btn btn-primary" id="confirmPayBtn" style="flex:1;">✔ Confirm Payment</button>
+                <button class="btn btn-secondary" id="closePaymentBtn" style="flex:1;">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal-overlay hidden">
+        <div class="modal-box glass-panel" style="max-width: 440px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h3 id="reviewModalTitle">Leave a Review</h3>
+                <span id="closeReviewModal" style="cursor:pointer; font-size:1.5rem; color:var(--text-muted);">&times;</span>
+            </div>
+            <div id="reviewAlert" class="alert" style="display:none;"></div>
+            <form id="reviewForm">
+                <input type="hidden" id="reviewBookingId">
+                <input type="hidden" id="editReviewId">
+                <div class="form-group">
+                    <label>Rating (1-5 Stars)</label>
+                    <select id="reviewRating" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 - Excellent)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 - Good)</option>
+                        <option value="3">⭐⭐⭐ (3 - Average)</option>
+                        <option value="2">⭐⭐ (2 - Poor)</option>
+                        <option value="1">⭐ (1 - Terrible)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Comment</label>
+                    <textarea id="reviewComment" rows="4" placeholder="Share your experience..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit Review</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

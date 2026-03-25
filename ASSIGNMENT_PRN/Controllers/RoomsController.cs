@@ -22,7 +22,7 @@ namespace ASSIGNMENT_PRN.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRooms([FromQuery] string? status)
         {
-            var query = _context.Rooms.AsQueryable();
+            var query = _context.Rooms.Include(r => r.RoomType).AsQueryable();
             if (!string.IsNullOrEmpty(status))
             {
                 query = query.Where(r => r.Status.ToLower() == status.ToLower());
@@ -35,29 +35,55 @@ namespace ASSIGNMENT_PRN.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoom(int id)
         {
-            var room = await _context.Rooms.Include(r => r.Hotel).FirstOrDefaultAsync(r => r.RoomId == id);
+            var room = await _context.Rooms
+                .Include(r => r.RoomType)
+                .Include(r => r.Hotel)
+                .FirstOrDefaultAsync(r => r.RoomId == id);
             if (room == null) return NotFound();
-
             return Ok(room);
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchRooms([FromQuery] SearchRoomDto searchCriteria)
+        public async Task<IActionResult> SearchRooms(
+            [FromQuery] string checkIn,
+            [FromQuery] string checkOut)
         {
-            // Simple search: find rooms that do not have overlapping bookings with the search dates
-            var overlappingBookings = _context.Bookings
-                .Where(b => b.Status != "Cancelled" &&
-                            b.CheckInDate < searchCriteria.CheckOutDate && 
-                            b.CheckOutDate > searchCriteria.CheckInDate)
-                .Select(b => b.RoomId);
+            if (!DateTime.TryParse(checkIn, out DateTime checkInDate) ||
+                !DateTime.TryParse(checkOut, out DateTime checkOutDate))
+                return BadRequest("Invalid date format. Use YYYY-MM-DD.");
 
-            var availableRooms = await _context.Rooms
-                .Where(r => r.Status == "Available" && !overlappingBookings.Contains(r.RoomId))
+            if (checkInDate.Date >= checkOutDate.Date)
+                return BadRequest("Check-in must be before check-out.");
+
+            // Get IDs of rooms that have ANY active (non-cancelled) booking overlapping the requested dates
+            var bookedRoomIds = await _context.Bookings
+                .Where(b => b.Status != "Cancelled"
+                    && b.CheckInDate.Date < checkOutDate.Date
+                    && b.CheckOutDate.Date > checkInDate.Date)
+                .Select(b => b.RoomId)
+                .Distinct()
                 .ToListAsync();
 
-            // Note: Add MinCapacity filtering if the Room entity gets a Capacity property in the future.
-            
-            return Ok(availableRooms);
+            // Return ALL rooms not under maintenance, but mark them Occupied if they overlap
+            var rooms = await _context.Rooms
+                .Include(r => r.RoomType)
+                .AsNoTracking() // Important: Prevent EF from saving the temporary status changes back to DB
+                .Where(r => r.Status != "Maintenance")
+                .ToListAsync();
+
+            foreach (var room in rooms)
+            {
+                if (bookedRoomIds.Contains(room.RoomId))
+                {
+                    room.Status = "Occupied";
+                }
+                else
+                {
+                    room.Status = "Available";
+                }
+            }
+
+            return Ok(rooms);
         }
     }
 }
