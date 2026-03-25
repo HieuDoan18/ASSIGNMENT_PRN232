@@ -47,8 +47,9 @@ namespace ASSIGNMENT_PRN.Controllers
             {
                 BookingId = model.BookingId,
                 Rating = model.Rating,
-                Comment = model.Comment,
-                CreatedAt = DateTime.UtcNow
+                Comment = model.Comment ?? "",
+                CreatedAt = DateTime.UtcNow,
+                StaffReply = ""
             };
 
             _context.Reviews.Add(review);
@@ -63,6 +64,7 @@ namespace ASSIGNMENT_PRN.Controllers
             var userId = GetUserId();
             var reviews = await _context.Reviews
                 .Include(r => r.Booking)
+                    .ThenInclude(b => b.Room)
                 .Where(r => r.Booking.UserId == userId)
                 .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();

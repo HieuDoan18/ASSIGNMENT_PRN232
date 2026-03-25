@@ -27,13 +27,14 @@ class ApiService {
             const errorText = await response.text();
             try {
                 const errorJson = JSON.parse(errorText);
-                throw new Error(errorJson.message || errorJson.title || 'An error occurred');
+                // Backend can return message (lowercase) or Message (uppercase)
+                const msg = errorJson.message || errorJson.Message || errorJson.title || errorJson.Title;
+                throw new Error(msg || `HTTP Error ${response.status}`);
             } catch (e) {
                 if (e instanceof SyntaxError) {
                     throw new Error(`Server returned an invalid response (HTTP ${response.status}).`);
                 }
-                if (e.message && e.message !== 'An error occurred') throw e;
-                throw new Error(errorText || `HTTP Error ${response.status}`);
+                throw e;
             }
         }
 

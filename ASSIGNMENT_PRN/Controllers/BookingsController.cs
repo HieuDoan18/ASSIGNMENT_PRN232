@@ -90,15 +90,21 @@ namespace ASSIGNMENT_PRN.Controllers
         public async Task<IActionResult> CancelBooking(int id)
         {
             var userId = GetUserId();
-            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.BookingId == id && b.UserId == userId);
+            var booking = await _context.Bookings
+                .Include(b => b.Room)
+                .FirstOrDefaultAsync(b => b.BookingId == id && b.UserId == userId);
 
             if (booking == null) return NotFound();
             if (booking.Status == "Cancelled") return BadRequest("Already cancelled");
             if (booking.Status == "Completed") return BadRequest("Cannot cancel completed booking");
+            if (booking.Status == "Paid") return BadRequest("Cannot cancel a paid booking");
 
             booking.Status = "Cancelled";
-            await _context.SaveChangesAsync();
+            // Free the room back
+            if (booking.Room != null)
+                booking.Room.Status = "Available";
 
+            await _context.SaveChangesAsync();
             return Ok(new { Message = "Booking cancelled successfully" });
         }
 
@@ -155,7 +161,14 @@ namespace ASSIGNMENT_PRN.Controllers
                 RoomTotal = roomTotal,
                 ServicesTotal = servicesTotal,
                 GrandTotal = booking.TotalPrice,
-                Status = booking.Status
+                Status = booking.Status,
+                BookingServices = booking.BookingServices.Select(bs => new
+                {
+                    ServiceName = bs.Service.Name,
+                    UnitPrice = bs.Service.Price,
+                    Quantity = bs.Quantity,
+                    SubTotal = bs.Service.Price * bs.Quantity
+                }).ToList()
             };
 
             return Ok(invoice);
@@ -165,12 +178,14 @@ namespace ASSIGNMENT_PRN.Controllers
         public async Task<IActionResult> ProcessPayment(int id, [FromBody] ProcessPaymentDto model)
         {
             var userId = GetUserId();
-            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.BookingId == id && b.UserId == userId);
+            var booking = await _context.Bookings
+                .Include(b => b.Room)
+                .FirstOrDefaultAsync(b => b.BookingId == id && b.UserId == userId);
 
             if (booking == null) return NotFound();
             if (booking.Status == "Cancelled") return BadRequest("Booking is cancelled");
+            if (booking.Status == "Paid") return BadRequest("Booking already paid");
 
-            // Mock payment processing
             var payment = new Payment
             {
                 BookingId = id,
@@ -181,9 +196,13 @@ namespace ASSIGNMENT_PRN.Controllers
             };
 
             _context.Payments.Add(payment);
-            booking.Status = "Paid"; // Example state transition
-            await _context.SaveChangesAsync();
+            booking.Status = "Paid";
 
+            // Mark room as Occupied
+            if (booking.Room != null)
+                booking.Room.Status = "Occupied";
+
+            await _context.SaveChangesAsync();
             return Ok(new { Message = "Payment processed successfully", Payment = payment });
         }
     }
