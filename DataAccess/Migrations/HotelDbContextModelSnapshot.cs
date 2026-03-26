@@ -298,7 +298,7 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
 
-                    b.Property<int>("HotelId")
+                    b.Property<int?>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
@@ -336,7 +336,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -499,9 +498,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("BusinessObjects.Entities.Hotel", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HotelId");
 
                     b.HasOne("BusinessObjects.Entities.RoomType", "RoomType")
                         .WithMany("Rooms")

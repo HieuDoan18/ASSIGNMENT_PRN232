@@ -24,17 +24,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pricing"
+                "$ref": "#/components/schemas/PricingDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pricing"
+                "$ref": "#/components/schemas/PricingDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Pricing"
+                "$ref": "#/components/schemas/PricingDto"
               }
             }
           }
@@ -66,17 +66,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pricing"
+                "$ref": "#/components/schemas/PricingDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pricing"
+                "$ref": "#/components/schemas/PricingDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Pricing"
+                "$ref": "#/components/schemas/PricingDto"
               }
             }
           }
@@ -107,17 +107,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Promotion"
+                "$ref": "#/components/schemas/PromotionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Promotion"
+                "$ref": "#/components/schemas/PromotionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Promotion"
+                "$ref": "#/components/schemas/PromotionDto"
               }
             }
           }
@@ -149,17 +149,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Promotion"
+                "$ref": "#/components/schemas/PromotionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Promotion"
+                "$ref": "#/components/schemas/PromotionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Promotion"
+                "$ref": "#/components/schemas/PromotionDto"
               }
             }
           }
@@ -248,6 +248,24 @@
       "get": {
         "tags": [
           "AdminReports"
+        ],
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -549,17 +567,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             }
           }
@@ -591,17 +609,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             }
           }
@@ -1242,6 +1260,37 @@
         }
       }
     },
+    "/api/Promotions/validate": {
+      "post": {
+        "tags": [
+          "Promotions"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidatePromoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidatePromoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidatePromoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Requests": {
       "post": {
         "tags": [
@@ -1407,29 +1456,17 @@
         ],
         "parameters": [
           {
-            "name": "CheckInDate",
+            "name": "checkIn",
             "in": "query",
-            "required": true,
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           },
           {
-            "name": "CheckOutDate",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "MinCapacity",
+            "name": "checkOut",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -3065,6 +3102,32 @@
         },
         "additionalProperties": false
       },
+      "PricingDto": {
+        "type": "object",
+        "properties": {
+          "roomTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seasonName": {
+            "type": "string",
+            "nullable": true
+          },
+          "multiplier": {
+            "type": "number",
+            "format": "double"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "ProcessPaymentDto": {
         "type": "object",
         "properties": {
@@ -3079,26 +3142,14 @@
         },
         "additionalProperties": false
       },
-      "Promotion": {
-        "required": [
-          "code",
-          "discountPercentage",
-          "endDate",
-          "startDate"
-        ],
+      "PromotionDto": {
         "type": "object",
         "properties": {
-          "promotionId": {
-            "type": "integer",
-            "format": "int32"
-          },
           "code": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "discountPercentage": {
-            "maximum": 100,
-            "minimum": 0,
             "type": "number",
             "format": "double"
           },
@@ -3216,7 +3267,8 @@
           },
           "hotelId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "roomNumber": {
             "type": "string",
@@ -3260,7 +3312,8 @@
           },
           "hotelId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "roomNumber": {
             "type": "string",
@@ -3338,6 +3391,20 @@
               "$ref": "#/components/schemas/BookingService"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ServiceDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -3454,6 +3521,20 @@
               "$ref": "#/components/schemas/Booking"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidatePromoDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "originalAmount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

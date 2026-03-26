@@ -18,8 +18,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pricing",
-        "Type": "BusinessObjects.Entities.Pricing",
+        "Name": "dto",
+        "Type": "ASSIGNMENT_PRN.Controllers.AdminPricingController\u002BPricingDto",
         "IsRequired": true
       }
     ],
@@ -39,8 +39,8 @@
         "IsRequired": true
       },
       {
-        "Name": "updatedPricing",
-        "Type": "BusinessObjects.Entities.Pricing",
+        "Name": "dto",
+        "Type": "ASSIGNMENT_PRN.Controllers.AdminPricingController\u002BPricingDto",
         "IsRequired": true
       }
     ],
@@ -65,8 +65,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "promotion",
-        "Type": "BusinessObjects.Entities.Promotion",
+        "Name": "dto",
+        "Type": "ASSIGNMENT_PRN.Controllers.AdminPricingController\u002BPromotionDto",
         "IsRequired": true
       }
     ],
@@ -86,8 +86,8 @@
         "IsRequired": true
       },
       {
-        "Name": "updatedPromotion",
-        "Type": "BusinessObjects.Entities.Promotion",
+        "Name": "dto",
+        "Type": "ASSIGNMENT_PRN.Controllers.AdminPricingController\u002BPromotionDto",
         "IsRequired": true
       }
     ],
@@ -116,7 +116,18 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -342,8 +353,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "service",
-        "Type": "BusinessObjects.Entities.Service",
+        "Name": "dto",
+        "Type": "ASSIGNMENT_PRN.Controllers.AdminServicesController\u002BServiceDto",
         "IsRequired": true
       }
     ],
@@ -363,8 +374,8 @@
         "IsRequired": true
       },
       {
-        "Name": "updatedService",
-        "Type": "BusinessObjects.Entities.Service",
+        "Name": "dto",
+        "Type": "ASSIGNMENT_PRN.Controllers.AdminServicesController\u002BServiceDto",
         "IsRequired": true
       }
     ],
@@ -740,6 +751,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ASSIGNMENT_PRN.Controllers.PromotionsController",
+    "Method": "ValidatePromo",
+    "RelativePath": "api/Promotions/validate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "ASSIGNMENT_PRN.Controllers.PromotionsController\u002BValidatePromoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ASSIGNMENT_PRN.Controllers.RequestsController",
     "Method": "CreateRequest",
     "RelativePath": "api/Requests",
@@ -843,18 +870,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CheckInDate",
-        "Type": "System.DateTime",
+        "Name": "checkIn",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "CheckOutDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "MinCapacity",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "checkOut",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

@@ -3,18 +3,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerCard = document.getElementById('registerCard');
     const forgotCard = document.getElementById('forgotCard');
     const resetCard = document.getElementById('resetCard');
-    
+
     const showRegisterBtn = document.getElementById('showRegister');
     const showLoginBtn = document.getElementById('showLogin');
     const showForgotBtn = document.getElementById('showForgot');
     const backToLoginForgotBtn = document.getElementById('backToLoginForgot');
     const backToLoginResetBtn = document.getElementById('backToLoginReset');
-    
+
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const forgotForm = document.getElementById('forgotForm');
     const resetForm = document.getElementById('resetForm');
-    
+
     const loginAlert = document.getElementById('loginAlert');
     const registerAlert = document.getElementById('registerAlert');
     const forgotAlert = document.getElementById('forgotAlert');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         registerCard.classList.add('hidden');
         forgotCard.classList.add('hidden');
         resetCard.classList.add('hidden');
-        
+
         loginAlert.style.display = 'none';
         registerAlert.style.display = 'none';
         forgotAlert.style.display = 'none';
@@ -50,16 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const redirectUser = (token) => {
         const decoded = parseJwt(token);
         if (!decoded) return;
-        
+
         // Extract role from standard JWT claim or Custom Role Claim
         const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || decoded.role;
-        
+
         if (role === 'Admin') {
-            window.location.href = '/fe/admin/index.html';
+            window.location.href = 'admin/index.html';
         } else if (role === 'Staff') {
-            window.location.href = '/fe/staff/index.html';
+            window.location.href = 'staff/index.html';
         } else {
-            window.location.href = '/fe/customer/index.html';
+            window.location.href = 'customer/index.html';
         }
     };
 
