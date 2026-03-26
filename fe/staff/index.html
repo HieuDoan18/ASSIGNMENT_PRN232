@@ -49,10 +49,11 @@
         tr:hover td { background: rgba(255,255,255,0.05); }
 
         .badge { padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
-        .badge-confirmed { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .badge-checkedin { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .badge-completed { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
-        .badge-cancelled { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+        .badge-confirmed { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-checkedin { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .badge-pending { background: rgba(0, 191, 255, 0.1); color: #00bfff; border: 1px solid rgba(0, 191, 255, 0.3); box-shadow: 0 0 10px rgba(0, 191, 255, 0.15); }
+        .badge-completed { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+        .badge-cancelled { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
 
         /* Toast UI */
         #toastContainer { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
@@ -71,6 +72,19 @@
         .btn-sm { padding: 8px 16px; font-size: 0.85rem; border-radius: 10px; }
 
         .hidden { display: none !important; }
+
+        /* Pagination Styling */
+        .pagination-container { display: flex; justify-content: center; gap: 8px; margin-top: 1.5rem; }
+        .page-btn { padding: 6px 12px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 8px; color: #94a3b8; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
+        .page-btn:hover { background: rgba(99, 102, 241, 0.2); color: white; transform: translateY(-2px); }
+        .page-btn.active { background: #6366f1; color: white; border-color: #6366f1; box-shadow: 0 4px 15px rgba(99,102,241,0.3); }
+        .page-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
+        /* Detail Modal Specifics */
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        .detail-item { background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); }
+        .detail-label { font-size: 0.75rem; text-transform: uppercase; color: #64748b; margin-bottom: 4px; }
+        .detail-value { font-weight: 500; font-size: 0.95rem; }
     </style>
 </head>
 <body>
@@ -90,6 +104,7 @@
 
         <nav class="nav-group">
             <div class="nav-label">Management</div>
+            <a href="#" class="nav-item" data-target="requestsSection">🔔 Guest Requests</a>
             <a href="#" class="nav-item" data-target="inventorySection">📦 Inventory</a>
             <a href="#" class="nav-item" data-target="servicesSection">🛠️ Services</a>
             <a href="#" class="nav-item" data-target="feedbackSection">⭐ Feedback</a>
@@ -123,19 +138,12 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr>
-                                <th>Booking</th>
-                                <th>Guest</th>
-                                <th>Room</th>
-                                <th>Schedule</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
+                            <tr><th>Booking</th><th>Guest</th><th>Room</th><th>Schedule</th><th>Total</th><th>Status</th><th>Actions</th></tr>
                         </thead>
                         <tbody id="bookingsTableBody"></tbody>
                     </table>
                 </div>
+                <div id="bookingsPagination" class="pagination-container"></div>
             </div>
         </section>
 
@@ -149,59 +157,91 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr>
-                                <th>Room Number</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Management</th>
-                            </tr>
+                            <tr><th>Room Number</th><th>Type</th><th>Status</th><th>Actions</th></tr>
                         </thead>
                         <tbody id="roomsTableBody"></tbody>
                     </table>
                 </div>
+                <div id="roomsPagination" class="pagination-container"></div>
             </div>
         </section>
 
-        <!-- Other sections remain same structure but in better card -->
+        <!-- Guest Requests Section -->
+        <section id="requestsSection" class="section-component hidden">
+            <div class="dashboard-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3>Guest In-Stay Requests</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="loadRequests()">Refresh Requests</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Room</th><th>Request Content</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="requestsTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="requestsPagination" class="pagination-container"></div>
+            </div>
+        </section>
+
+        <!-- Inventory Section -->
         <section id="inventorySection" class="section-component hidden">
             <div class="dashboard-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h3>Hotel Inventory</h3>
                     <button class="btn btn-primary btn-sm" onclick="openInventoryModal()">+ Add New Item</button>
                 </div>
-                <div id="lowStockAlert" class="alert alert-error hidden" style="margin-bottom: 1.5rem; border-radius: 12px;">
+                <div id="lowStockAlert" class="low-stock-box hidden" style="margin-bottom:1.5rem; background:rgba(239,68,68,0.1); color:#ef4444; padding:1rem; border-radius:12px; border:1px solid rgba(239,68,68,0.2);">
                     ⚠️ Attention: Some critical items are running low on stock.
                 </div>
-                <table>
-                    <thead>
-                        <tr><th>Item</th><th>Stock Level</th><th>Quantity</th><th>Actions</th></tr>
-                    </thead>
-                    <tbody id="inventoryTableBody"></tbody>
-                </table>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Item</th><th>Stock Level</th><th>Quantity</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="inventoryTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="inventoryPagination" class="pagination-container"></div>
             </div>
         </section>
 
+        <!-- Services Section -->
         <section id="servicesSection" class="section-component hidden">
             <div class="dashboard-card">
-                <h3>Hotel Services & Pricing</h3>
-                <table>
-                    <thead>
-                        <tr><th>ID</th><th>Service Name</th><th>Price</th><th>Action</th></tr>
-                    </thead>
-                    <tbody id="servicesTableBody"></tbody>
-                </table>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3>Hotel Services & Pricing</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="loadServices()">Refresh Services</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Service Name</th><th>Price</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="servicesTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="servicesPagination" class="pagination-container"></div>
             </div>
         </section>
 
+        <!-- Feedback Section -->
         <section id="feedbackSection" class="section-component hidden">
             <div class="dashboard-card">
-                <h3>Guest Feedback</h3>
-                <table>
-                    <thead>
-                        <tr><th>Booking</th><th>Rating</th><th>Comment</th><th>Date</th></tr>
-                    </thead>
-                    <tbody id="feedbackTableBody"></tbody>
-                </table>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3>Guest Feedbacks & Reviews</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="loadFeedback()">Refresh Reviews</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Booking</th><th>Rating</th><th>Review</th><th>Staff Reply</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="feedbackTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="feedbackPagination" class="pagination-container"></div>
             </div>
         </section>
     </main>
@@ -228,6 +268,20 @@
             <div style="display: flex; gap: 12px; margin-top: 2rem;">
                 <button id="confirmBtn" class="btn btn-danger" style="flex: 1; justify-content: center;">Confirm</button>
                 <button onclick="closeConfirmModal()" class="btn btn-secondary" style="flex: 1; justify-content: center;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail View Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-card" style="max-width: 600px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                <h3 id="detailModalTitle" style="margin: 0;">Record Detail</h3>
+                <button onclick="closeDetailModal()" class="btn btn-secondary btn-xs" style="background:transparent; border:none; font-size: 1.25rem;">&times;</button>
+            </div>
+            <div id="detailContent"></div>
+            <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                <button onclick="closeDetailModal()" class="btn btn-secondary" style="width: 100px; justify-content: center;">Close</button>
             </div>
         </div>
     </div>
