@@ -21,3 +21,16 @@ C:\Users\Hoang\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObject
 C:\Users\Hoang\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\refint\BusinessObjects.dll
 C:\Users\Hoang\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.pdb
 C:\Users\Hoang\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\ref\BusinessObjects.dll
+C:\Users\doanh\OneDrive\Documents\SE\_2026_SPRING\PRN232\ASSIGNMENT_PRN\BusinessObjects\obj\Debug\net8.0\BusinessObjects.sourcelink.json
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\bin\Debug\net8.0\BusinessObjects.deps.json
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\bin\Debug\net8.0\BusinessObjects.dll
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\bin\Debug\net8.0\BusinessObjects.pdb
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.GeneratedMSBuildEditorConfig.editorconfig
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.AssemblyInfoInputs.cache
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.AssemblyInfo.cs
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.csproj.CoreCompileInputs.cache
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.sourcelink.json
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.dll
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\refint\BusinessObjects.dll
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\BusinessObjects.pdb
+D:\ProjectPrn232\ASSIGNMENT_PRN232\BusinessObjects\obj\Debug\net8.0\ref\BusinessObjects.dll

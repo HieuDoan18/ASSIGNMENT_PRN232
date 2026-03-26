@@ -34,7 +34,7 @@ namespace BusinessObjects.DTOs
     public class RoomDto
     {
         public int RoomId { get; set; }
-        public int HotelId { get; set; }
+        public int? HotelId { get; set; }
         public string RoomNumber { get; set; }
         public double Price { get; set; }
         public string Status { get; set; }

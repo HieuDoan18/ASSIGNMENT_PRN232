@@ -1,48 +1,66 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\",
+  "WorkspaceRootPath": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\hoang\\assignment_prn232\\assignment_prn\\controllers\\staffbookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|solutionrelative:assignment_prn\\controllers\\staffbookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\assignment_prn\\assignment_prn.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|solutionrelative:assignment_prn\\assignment_prn.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\hoang\\assignment_prn232\\assignment_prn\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\assignment_prn\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|solutionrelative:assignment_prn\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB25E004-8E28-485B-98F7-02A2A4CCBC62}|Repositories\\Repositories.csproj|c:\\users\\hoang\\assignment_prn232\\repositories\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB25E004-8E28-485B-98F7-02A2A4CCBC62}|Repositories\\Repositories.csproj|solutionrelative:repositories\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|c:\\users\\hoang\\assignment_prn232\\dataaccess\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|c:\\users\\hoang\\assignment_prn232\\businessobjects\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\businessobjects\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|solutionrelative:businessobjects\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|c:\\users\\hoang\\assignment_prn232\\dataaccess\\hoteldbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\businessobjects\\entities\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|solutionrelative:businessobjects\\entities\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\businessobjects\\entities\\extraentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|solutionrelative:businessobjects\\entities\\extraentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\businessobjects\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|solutionrelative:businessobjects\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\assignment_prn\\controllers\\staffbookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|solutionrelative:assignment_prn\\controllers\\staffbookingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB25E004-8E28-485B-98F7-02A2A4CCBC62}|Repositories\\Repositories.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\repositories\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB25E004-8E28-485B-98F7-02A2A4CCBC62}|Repositories\\Repositories.csproj|solutionrelative:repositories\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\dataaccess\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\dataaccess\\hoteldbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\hoteldbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\hoang\\assignment_prn232\\assignment_prn\\assignment_prn.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\assignment_prn\\assignment_prn.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|solutionrelative:assignment_prn\\assignment_prn.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|c:\\users\\hoang\\assignment_prn232\\dataaccess\\dataaccess.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "AbsoluteMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\dataaccess\\dataaccess.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{52A2A806-E17B-4CAD-B1B2-940B76D538F7}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\dataaccess.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|c:\\users\\hoang\\assignment_prn232\\businessobjects\\businessobjects.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "AbsoluteMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|c:\\users\\doanh\\onedrive\\documents\\se\\_2026_spring\\prn232\\assignment_prn\\businessobjects\\businessobjects.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{F4A91663-DCA4-4054-9732-089F2A133A26}|BusinessObjects\\BusinessObjects.csproj|solutionrelative:businessobjects\\businessobjects.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DataAccess\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BusinessObjects\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -52,11 +70,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 25,
           "Children": [
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{26341fe2-71dd-46fd-bb1b-2e51a92a0d64}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:35:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:7:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:8:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:9:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:11:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:14:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:15:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             },
             {
               "$type": "Bookmark",
@@ -65,10 +139,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Bookmark",
@@ -105,49 +175,95 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ASSIGNMENT_PRN.http",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.http",
+              "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\ASSIGNMENT_PRN.http",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.http",
+              "RelativeToolTip": "ASSIGNMENT_PRN\\ASSIGNMENT_PRN.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-03-24T19:02:19.59Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Room.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\Room.cs",
+              "RelativeDocumentMoniker": "BusinessObjects\\Entities\\Room.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\Room.cs",
+              "RelativeToolTip": "BusinessObjects\\Entities\\Room.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T20:05:35.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ExtraEntities.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\ExtraEntities.cs",
+              "RelativeDocumentMoniker": "BusinessObjects\\Entities\\ExtraEntities.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\ExtraEntities.cs",
+              "RelativeToolTip": "BusinessObjects\\Entities\\ExtraEntities.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T20:04:03.883Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Booking.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\Booking.cs",
+              "RelativeDocumentMoniker": "BusinessObjects\\Entities\\Booking.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\Booking.cs",
+              "RelativeToolTip": "BusinessObjects\\Entities\\Booking.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB8AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T20:03:01.135Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "StaffBookingsController.cs",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
               "RelativeToolTip": "ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T16:26:40.563Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-22T16:26:40.563Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\appsettings.json",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\appsettings.json",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\appsettings.json",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\appsettings.json",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\appsettings.json",
               "RelativeToolTip": "ASSIGNMENT_PRN\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-03-22T16:26:34.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-22T16:26:34.977Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\Entities\\User.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\User.cs",
               "RelativeDocumentMoniker": "BusinessObjects\\Entities\\User.cs",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\Entities\\User.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Entities\\User.cs",
               "RelativeToolTip": "BusinessObjects\\Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wBMAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T14:58:30.477Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-18T14:58:30.477Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "HotelDbContextFactory.cs",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\HotelDbContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\HotelDbContextFactory.cs",
               "RelativeDocumentMoniker": "DataAccess\\HotelDbContextFactory.cs",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\HotelDbContextFactory.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\HotelDbContextFactory.cs",
               "RelativeToolTip": "DataAccess\\HotelDbContextFactory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -155,24 +271,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "HotelDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\HotelDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\HotelDbContext.cs",
               "RelativeDocumentMoniker": "DataAccess\\HotelDbContext.cs",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\HotelDbContext.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\HotelDbContext.cs",
               "RelativeToolTip": "DataAccess\\HotelDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T14:37:36.644Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T14:37:36.644Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "ASSIGNMENT_PRN.csproj",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
               "RelativeToolTip": "ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -180,11 +295,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "DataAccess.csproj",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\DataAccess.csproj",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\DataAccess.csproj",
               "RelativeDocumentMoniker": "DataAccess\\DataAccess.csproj",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\DataAccess.csproj",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\DataAccess.csproj",
               "RelativeToolTip": "DataAccess\\DataAccess.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -192,11 +307,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "BusinessObjects.csproj",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\BusinessObjects.csproj",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\BusinessObjects.csproj",
               "RelativeDocumentMoniker": "BusinessObjects\\BusinessObjects.csproj",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\BusinessObjects.csproj",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\BusinessObjects.csproj",
               "RelativeToolTip": "BusinessObjects\\BusinessObjects.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -204,94 +319,37 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\Class1.cs",
+              "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\Repositories\\Class1.cs",
               "RelativeDocumentMoniker": "Repositories\\Class1.cs",
-              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\Class1.cs",
+              "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\Repositories\\Class1.cs",
               "RelativeToolTip": "Repositories\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-10T05:10:51.239Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-10T05:10:51.239Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs",
-              "RelativeDocumentMoniker": "..\\..\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Class1.cs",
               "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs",
-              "RelativeToolTip": "..\\..\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs",
+              "RelativeToolTip": "DataAccess\\Class1.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-10T05:10:29.757Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs",
-              "RelativeDocumentMoniker": "..\\..\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs",
+              "RelativeDocumentMoniker": "BusinessObjects\\Class1.cs",
               "ToolTip": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs",
-              "RelativeToolTip": "..\\..\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs",
+              "RelativeToolTip": "BusinessObjects\\Class1.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-10T05:10:12.955Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{26341fe2-71dd-46fd-bb1b-2e51a92a0d64}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:4:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:35:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:7:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:8:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:9:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:11:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:14:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:15:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             }
           ]
         }

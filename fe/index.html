@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management | Authentication</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <div class="glass-panel auth-card" id="loginCard">
+            <div class="text-center mb-4">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your account</p>
+            </div>
+
+            <div id="loginAlert" class="alert alert-error"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <div class="text-right mb-4">
+                    <span class="text-sm text-primary cursor-pointer" id="showForgot">Forgot password?</span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Sign In</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-sm">Don't have an account? <span class="text-primary cursor-pointer"
+                        id="showRegister">Sign up</span></p>
+            </div>
+        </div>
+
+        <div class="glass-panel auth-card hidden" id="registerCard">
+            <div class="text-center mb-4">
+                <h2>Create Account</h2>
+                <p>Join our hotel management system</p>
+            </div>
+
+            <div id="registerAlert" class="alert alert-error"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regFullName">Full Name</label>
+                    <input type="text" id="regFullName" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email Address</label>
+                    <input type="email" id="regEmail" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" required minlength="6" placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="registerBtn">Register</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-sm">Already have an account? <span class="text-primary cursor-pointer"
+                        id="showLogin">Sign in</span></p>
+            </div>
+        </div>
+
+        <div class="glass-panel auth-card hidden" id="forgotCard">
+            <div class="text-center mb-4">
+                <h2>Forgot Password</h2>
+                <p>Enter your email to receive a reset token</p>
+            </div>
+
+            <div id="forgotAlert" class="alert alert-error"></div>
+
+            <form id="forgotForm">
+                <div class="form-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <input type="email" id="forgotEmail" required placeholder="you@example.com">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="forgotBtn">Send Token</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-sm"><span class="text-primary cursor-pointer" id="backToLoginForgot">Back to Login</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="glass-panel auth-card hidden" id="resetCard">
+            <div class="text-center mb-4">
+                <h2>Reset Password</h2>
+                <p>Enter your token and new password</p>
+            </div>
+
+            <div id="resetAlert" class="alert alert-error"></div>
+
+            <form id="resetForm">
+                <div class="form-group">
+                    <label for="resetEmail">Email Address</label>
+                    <input type="email" id="resetEmail" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="resetToken">Reset Token</label>
+                    <input type="text" id="resetToken" required placeholder="Paste token here">
+                </div>
+                <div class="form-group">
+                    <label for="resetNewPassword">New Password</label>
+                    <input type="password" id="resetNewPassword" required minlength="6" placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="resetBtn">Change Password</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-sm"><span class="text-primary cursor-pointer" id="backToLoginReset">Back to Login</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

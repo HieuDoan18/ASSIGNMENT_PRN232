@@ -201,6 +201,63 @@ namespace DataAccess.Migrations
                     b.ToTable("Payments");
                 });
 
+            modelBuilder.Entity("BusinessObjects.Entities.Pricing", b =>
+                {
+                    b.Property<int>("PricingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PricingId"));
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Multiplier")
+                        .HasColumnType("float");
+
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SeasonName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PricingId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Pricings");
+                });
+
+            modelBuilder.Entity("BusinessObjects.Entities.Promotion", b =>
+                {
+                    b.Property<int>("PromotionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PromotionId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("DiscountPercentage")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PromotionId");
+
+                    b.ToTable("Promotions");
+                });
+
             modelBuilder.Entity("BusinessObjects.Entities.Review", b =>
                 {
                     b.Property<int>("ReviewId")
@@ -251,6 +308,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoomTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -259,7 +319,33 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("HotelId");
 
+                    b.HasIndex("RoomTypeId");
+
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("BusinessObjects.Entities.RoomType", b =>
+                {
+                    b.Property<int>("RoomTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"));
+
+                    b.Property<double>("BasePrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoomTypeId");
+
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("BusinessObjects.Entities.Service", b =>
@@ -290,6 +376,9 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -298,9 +387,24 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsLocked")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResetPasswordToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ResetPasswordTokenExpiry")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -369,6 +473,17 @@ namespace DataAccess.Migrations
                     b.Navigation("Booking");
                 });
 
+            modelBuilder.Entity("BusinessObjects.Entities.Pricing", b =>
+                {
+                    b.HasOne("BusinessObjects.Entities.RoomType", "RoomType")
+                        .WithMany("Pricings")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+                });
+
             modelBuilder.Entity("BusinessObjects.Entities.Review", b =>
                 {
                     b.HasOne("BusinessObjects.Entities.Booking", "Booking")
@@ -388,7 +503,13 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BusinessObjects.Entities.RoomType", "RoomType")
+                        .WithMany("Rooms")
+                        .HasForeignKey("RoomTypeId");
+
                     b.Navigation("Hotel");
+
+                    b.Navigation("RoomType");
                 });
 
             modelBuilder.Entity("BusinessObjects.Entities.Booking", b =>
@@ -404,6 +525,13 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("BusinessObjects.Entities.Room", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("BusinessObjects.Entities.RoomType", b =>
+                {
+                    b.Navigation("Pricings");
+
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("BusinessObjects.Entities.Service", b =>
