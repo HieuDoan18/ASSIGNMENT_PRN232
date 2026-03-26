@@ -454,3 +454,5 @@ D:\ProjectPrn232\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\obj\Debug\net8.0\refint\ASSIGN
 D:\ProjectPrn232\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\obj\Debug\net8.0\ASSIGNMENT_PRN.pdb
 D:\ProjectPrn232\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\obj\Debug\net8.0\ASSIGNMENT_PRN.genruntimeconfig.cache
 D:\ProjectPrn232\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\obj\Debug\net8.0\ref\ASSIGNMENT_PRN.dll
+C:\Users\Hoang\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Hoang\ASSIGNMENT_PRN232\ASSIGNMENT_PRN\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

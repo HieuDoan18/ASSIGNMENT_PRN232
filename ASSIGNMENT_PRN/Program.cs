@@ -105,9 +105,11 @@ namespace ASSIGNMENT_PRN
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            // 1. Phải bật CORS TRƯỚC các middleware khác
+            app.UseCors("AllowAll");
 
-            app.UseCors("AllowAll"); // Enable CORS
+            // 2. Comment dòng này để tránh lỗi Redirect Preflight trên localhost
+            // app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();

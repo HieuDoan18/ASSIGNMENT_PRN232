@@ -19,7 +19,7 @@ class ApiService {
                 localStorage.removeItem('jwt_token');
                 // Don't auto-redirect if we're hitting the login endpoint
                 if (!endpoint.includes('/auth/login')) {
-                    window.location.href = '/fe/index.html';
+                    window.location.href = '/index.html';
                 }
                 throw new Error('Unauthorized');
             }
@@ -38,9 +38,15 @@ class ApiService {
             }
         }
 
-        // Handle empty responses
+        // Handle empty or text responses
         const text = await response.text();
-        return text ? JSON.parse(text) : {};
+        if (!text) return {};
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            // If it's not JSON, return the raw text (common for "Success" messages)
+            return text;
+        }
     }
 
     static async get(endpoint) {
