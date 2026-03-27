@@ -192,19 +192,72 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('closeRoomDetail').addEventListener('click', () => roomDetailModal.classList.add('hidden'));
     document.getElementById('closeRoomDetailBtn').addEventListener('click', () => roomDetailModal.classList.add('hidden'));
 
-    window.openRoomDetail = (id, number, price, type, status) => {
+    window.openRoomDetail = async (id, number, price, type, status) => {
         currentRoomId = id;
         currentRoomPrice = price;
         document.getElementById('roomDetailTitle').textContent = `Room ${number}`;
-        document.getElementById('roomDetailContent').innerHTML = `
+        
+        let contentHtml = `
             <p><strong>🏷️ Type:</strong> ${type}</p>
             <p><strong>💰 Price:</strong> <span style="color:var(--primary-color);font-weight:600;">$${price}/night</span></p>
-            <p><strong>📌 Status:</strong> ${status}</p>`;
-        document.getElementById('bookCheckIn').value = '';
-        document.getElementById('bookCheckOut').value = '';
+            <p><strong>📌 Status:</strong> ${status}</p>
+            <hr style="margin: 1rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.1);">
+            <h4 style="margin-bottom:0.5rem;">Guest Reviews</h4>
+            <div id="roomReviewsContainer" style="max-height: 200px; overflow-y: auto; font-size: 0.9rem; color: var(--text-muted);">
+                <em>Loading reviews...</em>
+            </div>
+        `;
+        document.getElementById('roomDetailContent').innerHTML = contentHtml;
+        
+        // Auto-fill dates from search inputs
+        const searchCheckIn = document.getElementById('searchCheckIn').value;
+        const searchCheckOut = document.getElementById('searchCheckOut').value;
+        
+        const bookIn = document.getElementById('bookCheckIn');
+        const bookOut = document.getElementById('bookCheckOut');
+        
+        bookIn.value = searchCheckIn;
+        bookOut.value = searchCheckOut;
+        
+        // Set min date to today to prevent past bookings
+        const todayStr = formatDate(new Date());
+        bookIn.min = todayStr;
+        bookOut.min = todayStr;
+
         document.getElementById('bookingPricePreview').style.display = 'none';
         document.getElementById('bookingAlert').style.display = 'none';
         roomDetailModal.classList.remove('hidden');
+        
+        // Fetch reviews
+        try {
+            const reviews = await ApiService.get(`/reviews/room/${id}`);
+            const revContainer = document.getElementById('roomReviewsContainer');
+            if (!reviews || reviews.length === 0) {
+                revContainer.innerHTML = '<em>No reviews yet.</em>';
+            } else {
+                let revHtml = '';
+                reviews.forEach(r => {
+                    const stars = '⭐'.repeat(r.rating);
+                    const date = new Date(r.createdAt).toLocaleDateString('vi-VN');
+                    revHtml += `
+                        <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:0.25rem;">
+                                <strong>${r.customerName}</strong>
+                                <span>${stars}</span>
+                            </div>
+                            <div style="margin-bottom:0.25rem;">${r.comment || '<em>No comment</em>'}</div>
+                            <div style="font-size:0.8rem; opacity:0.7;">${date}</div>
+                            ${r.staffReply ? `<div style="margin-top:0.5rem; padding-left:0.5rem; border-left: 2px solid var(--primary-color); color: var(--primary-color);"><strong>Staff:</strong> ${r.staffReply}</div>` : ''}
+                        </div>
+                    `;
+                });
+                revContainer.innerHTML = revHtml;
+            }
+        } catch(e) {
+            document.getElementById('roomReviewsContainer').innerHTML = '<em class="text-error">Failed to load reviews.</em>';
+        }
+        
+        updatePricePreview(); // Update preview if dates are pre-filled
     };
 
     // Price preview on date change
@@ -229,18 +282,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         const checkIn = document.getElementById('bookCheckIn').value;
         const checkOut = document.getElementById('bookCheckOut').value;
         const alertBox = document.getElementById('bookingAlert');
+        
         if (!checkIn || !checkOut) {
             alertBox.textContent = 'Please select check-in and check-out dates.';
             alertBox.className = 'alert alert-error';
             alertBox.style.display = 'block';
             return;
         }
-        if (new Date(checkOut) <= new Date(checkIn)) {
+        
+        const checkInDate = new Date(checkIn);
+        const checkOutDate = new Date(checkOut);
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        checkInDate.setHours(0,0,0,0);
+        
+        if (checkInDate < today) {
+            alertBox.textContent = 'Cannot book dates in the past.';
+            alertBox.className = 'alert alert-error';
+            alertBox.style.display = 'block';
+            return;
+        }
+        
+        if (checkOutDate <= checkInDate) {
             alertBox.textContent = 'Check-out must be after check-in.';
             alertBox.className = 'alert alert-error';
             alertBox.style.display = 'block';
             return;
         }
+        
         const btn = document.getElementById('confirmBookBtn');
         btn.textContent = 'Booking...'; btn.disabled = true;
         try {
@@ -588,6 +657,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Keep the default options
             select.innerHTML = '<option value="">-- None --</option>';
             bookings.forEach(b => {
+                if (b.status === 'Completed' || b.status === 'Cancelled') return;
                 const opt = document.createElement('option');
                 opt.value = b.bookingId;
                 opt.textContent = `Booking #${b.bookingId} - Room ${b.roomNumber || (b.room ? b.room.roomNumber : '?')}`;
