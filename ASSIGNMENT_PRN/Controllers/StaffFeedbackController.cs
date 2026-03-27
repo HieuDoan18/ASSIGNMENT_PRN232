@@ -24,6 +24,8 @@ namespace ASSIGNMENT_PRN.Controllers
             var requests = await _context.CustomerRequests
                 .Include(r => r.Booking)
                     .ThenInclude(b => b.User)
+                .Include(r => r.Booking)
+                    .ThenInclude(b => b.Room)
                 .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
 
@@ -49,6 +51,8 @@ namespace ASSIGNMENT_PRN.Controllers
             var reviews = await _context.Reviews
                 .Include(r => r.Booking)
                     .ThenInclude(b => b.User)
+                .Include(r => r.Booking)
+                    .ThenInclude(b => b.Room)
                 .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
 

@@ -6,6 +6,7 @@
     <title>Staff Elite - Hotel Management</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         :root {
@@ -85,6 +86,67 @@
         .detail-item { background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); }
         .detail-label { font-size: 0.75rem; text-transform: uppercase; color: #64748b; margin-bottom: 4px; }
         .detail-value { font-weight: 500; font-size: 0.95rem; }
+
+        /* Filter UI */
+        .filter-row { 
+            display: flex; 
+            gap: 1rem; 
+            margin-bottom: 2rem; 
+            background: rgba(15, 23, 42, 0.4); 
+            padding: 1.25rem; 
+            border-radius: 20px; 
+            border: 1px solid var(--glass-border); 
+            align-items: center;
+        }
+        .search-wrapper { position: relative; flex: 1; display: flex; align-items: center; }
+        .search-wrapper i { position: absolute; left: 1.25rem; color: #64748b; font-size: 0.9rem; pointer-events: none; }
+        .filter-row input { 
+            width: 100% !important; 
+            padding-left: 3rem !important;
+            background: rgba(15, 23, 42, 0.6) !important;
+            height: 50px;
+            margin: 0;
+            border-radius: 14px !important;
+            font-size: 0.95rem;
+        }
+        .filter-row select { 
+            width: auto !important;
+            min-width: 200px;
+            background: rgba(15, 23, 42, 0.6) !important;
+            height: 50px;
+            cursor: pointer;
+            margin: 0;
+            border-radius: 14px !important;
+            font-size: 0.95rem;
+        }
+        
+        .loading { pointer-events: none; opacity: 0.6; }
+        .loading::after { content: '...'; }
+
+        /* Natural Table System */
+        table { 
+            width: 100%; 
+            border-collapse: separate; 
+            border-spacing: 0 8px; 
+            margin-top: 1rem;
+        }
+        th { 
+            text-align: left; 
+            padding: 1rem; 
+            color: #64748b; 
+            font-weight: 600; 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+        }
+        td { 
+            padding: 1.25rem 1rem !important; 
+            background: rgba(255,255,255,0.02); 
+            border-top: 1px solid var(--glass-border); 
+            border-bottom: 1px solid var(--glass-border);
+            white-space: nowrap;
+        }
+        td:first-child { border-left: 1px solid var(--glass-border); border-radius: 12px 0 0 12px; }
+        td:last-child { border-right: 1px solid var(--glass-border); border-radius: 0 12px 12px 0; }
     </style>
 </head>
 <body>
@@ -133,12 +195,36 @@
                         <h3 style="margin:0">Active Bookings</h3>
                         <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.85rem;">Manage check-ins and check-outs</p>
                     </div>
-                    <button class="btn btn-secondary btn-sm" onclick="loadBookings()">Refresh List</button>
+                    <button class="btn btn-secondary btn-sm" id="btnRefreshBookings" onclick="loadBookings(false)">Refresh List</button>
                 </div>
+
+                <div class="filter-row">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="bookingSearch" placeholder="Search by Guest, Room or ID..." oninput="filterBookings()">
+                    </div>
+                    <select id="bookingStatusFilter" onchange="filterBookings()">
+                        <option value="">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="CheckedIn">Checked In</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>Booking</th><th>Guest</th><th>Room</th><th>Schedule</th><th>Total</th><th>Status</th><th>Actions</th></tr>
+                            <tr>
+                                <th>Booking</th>
+                                <th>Guest</th>
+                                <th>Room</th>
+                                <th>Schedule</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="bookingsTableBody"></tbody>
                     </table>
@@ -152,12 +238,32 @@
             <div class="dashboard-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h3>Room Status</h3>
-                    <button class="btn btn-secondary btn-sm" onclick="loadRooms()">Refresh</button>
+                    <button class="btn btn-secondary btn-sm" id="btnRefreshRooms" onclick="loadRooms(false)">Refresh</button>
                 </div>
+
+                <div class="filter-row">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="roomSearch" placeholder="Search Room Number..." oninput="filterRooms()">
+                    </div>
+                    <select id="roomStatusFilter" onchange="filterRooms()">
+                        <option value="">All Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Dirty">Dirty</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>Room Number</th><th>Type</th><th>Status</th><th>Actions</th></tr>
+                            <tr>
+                                <th>Room</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="roomsTableBody"></tbody>
                     </table>
@@ -171,12 +277,31 @@
             <div class="dashboard-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h3>Guest In-Stay Requests</h3>
-                    <button class="btn btn-secondary btn-sm" onclick="loadRequests()">Refresh Requests</button>
+                    <button class="btn btn-secondary btn-sm" id="btnRefreshRequests" onclick="loadRequests(false)">Refresh Requests</button>
                 </div>
+
+                <div class="filter-row">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="requestSearch" placeholder="Search Request or Room..." oninput="filterRequests()">
+                    </div>
+                    <select id="requestStatusFilter" onchange="filterRequests()">
+                        <option value="">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>Room</th><th>Request Content</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+                            <tr>
+                                <th>Room</th>
+                                <th>Request Content</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="requestsTableBody"></tbody>
                     </table>
@@ -190,15 +315,35 @@
             <div class="dashboard-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h3>Hotel Inventory</h3>
-                    <button class="btn btn-primary btn-sm" onclick="openInventoryModal()">+ Add New Item</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-secondary btn-sm" id="btnRefreshInventory" onclick="loadInventory(false)">Refresh Stock</button>
+                        <button class="btn btn-primary btn-sm" onclick="openInventoryModal()">+ Add New Item</button>
+                    </div>
                 </div>
+
+                <div class="filter-row">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="inventorySearch" placeholder="Search Items..." oninput="filterInventory()">
+                    </div>
+                    <select id="inventoryStockFilter" onchange="filterInventory()">
+                        <option value="all">All Items</option>
+                        <option value="low">Low Stock Only</option>
+                    </select>
+                </div>
+
                 <div id="lowStockAlert" class="low-stock-box hidden" style="margin-bottom:1.5rem; background:rgba(239,68,68,0.1); color:#ef4444; padding:1rem; border-radius:12px; border:1px solid rgba(239,68,68,0.2);">
                     ⚠️ Attention: Some critical items are running low on stock.
                 </div>
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>Item</th><th>Stock Level</th><th>Quantity</th><th>Actions</th></tr>
+                            <tr>
+                                <th>Item</th>
+                                <th>Stock Level</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="inventoryTableBody"></tbody>
                     </table>
@@ -212,12 +357,25 @@
             <div class="dashboard-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h3>Hotel Services & Pricing</h3>
-                    <button class="btn btn-secondary btn-sm" onclick="loadServices()">Refresh Services</button>
+                    <button class="btn btn-secondary btn-sm" id="btnRefreshServices" onclick="loadServices(false)">Refresh Services</button>
                 </div>
+
+                <div class="filter-row">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="serviceSearch" placeholder="Search Services..." oninput="filterServices()">
+                    </div>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>ID</th><th>Service Name</th><th>Price</th><th>Action</th></tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Service Name</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
                         </thead>
                         <tbody id="servicesTableBody"></tbody>
                     </table>
@@ -231,12 +389,34 @@
             <div class="dashboard-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h3>Guest Feedbacks & Reviews</h3>
-                    <button class="btn btn-secondary btn-sm" onclick="loadFeedback()">Refresh Reviews</button>
+                    <button class="btn btn-secondary btn-sm" id="btnRefreshFeedback" onclick="loadFeedback(false)">Refresh Reviews</button>
                 </div>
+
+                <div class="filter-row">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="feedbackSearch" placeholder="Search Booking ID or Review..." oninput="filterFeedback()">
+                    </div>
+                    <select id="feedbackRatingFilter" onchange="filterFeedback()">
+                        <option value="">All Ratings</option>
+                        <option value="5">5 ★★★★★</option>
+                        <option value="4">4 ★★★★</option>
+                        <option value="3">3 ★★★</option>
+                        <option value="2">2 ★★</option>
+                        <option value="1">1 ★</option>
+                    </select>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th>Booking</th><th>Rating</th><th>Review</th><th>Staff Reply</th><th>Actions</th></tr>
+                            <tr>
+                                <th>Booking</th>
+                                <th>Rating</th>
+                                <th>Review</th>
+                                <th>Staff Reply</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="feedbackTableBody"></tbody>
                     </table>
