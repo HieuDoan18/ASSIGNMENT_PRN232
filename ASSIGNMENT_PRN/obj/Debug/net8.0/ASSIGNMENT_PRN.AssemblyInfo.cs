@@ -13,7 +13,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ASSIGNMENT_PRN")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8072031aae07610e230ea9fed5de434fabc7df9")]
+=======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eafa9b75f7d67a5a51c3c2ee986f0694ccb43d4c")]
+>>>>>>> d897ee2a40018dd6e21883428270acb8077671f7
 [assembly: System.Reflection.AssemblyProductAttribute("ASSIGNMENT_PRN")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ASSIGNMENT_PRN")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
