@@ -89,11 +89,11 @@ namespace ASSIGNMENT_PRN.Controllers
                 CheckInDate = createDto.CheckInDate,
                 CheckOutDate = createDto.CheckOutDate,
                 TotalPrice = room.Price * days,
-                Status = "Confirmed" // Walk-ins are usually confirmed immediately
+                Status = "CheckedIn",
+                ActualCheckIn = DateTime.Now
             };
 
-            // Update room status
-            room.Status = "Occupied";
+            // Room.Status is managed separately by staff - no auto-mutation here.
 
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
@@ -143,14 +143,11 @@ namespace ASSIGNMENT_PRN.Controllers
             if (booking == null) return NotFound();
 
             if (booking.Status == "Cancelled") return BadRequest("Already cancelled");
+            if (booking.Status == "CheckedIn") return BadRequest("Cannot cancel a checked-in booking. Please check-out instead.");
+            if (booking.Status == "Completed") return BadRequest("Cannot cancel a completed booking.");
 
             booking.Status = "Cancelled";
-            
-            // Release room
-            if (booking.Room != null)
-            {
-                booking.Room.Status = "Available";
-            }
+            // Room.Status is managed separately - no auto-mutation here.
 
             await _context.SaveChangesAsync();
             return Ok("Booking cancelled");
@@ -163,15 +160,12 @@ namespace ASSIGNMENT_PRN.Controllers
             var booking = await _context.Bookings.Include(b => b.Room).FirstOrDefaultAsync(b => b.BookingId == id);
             if (booking == null) return NotFound();
 
-            if (booking.Status != "Confirmed")
-                return BadRequest("Booking must be Confirmed before Check-in");
+            if (booking.Status != "Confirmed" && booking.Status != "Paid" && booking.Status != "Pending")
+                return BadRequest("Booking cannot be Checked-In at this state (Must be Pending/Paid/Confirmed)");
 
             booking.Status = "CheckedIn";
             booking.ActualCheckIn = DateTime.Now;
-            if (booking.Room != null)
-            {
-                booking.Room.Status = "Occupied";
-            }
+            // Room.Status is managed separately by staff.
 
             await _context.SaveChangesAsync();
             return Ok("Checked In successfully");
@@ -189,10 +183,7 @@ namespace ASSIGNMENT_PRN.Controllers
 
             booking.Status = "Completed";
             booking.ActualCheckOut = DateTime.Now;
-            if (booking.Room != null)
-            {
-                booking.Room.Status = "Dirty"; // Set to dirty after check-out
-            }
+            // Room.Status is managed separately by staff.
 
             await _context.SaveChangesAsync();
             return Ok("Checked Out successfully");

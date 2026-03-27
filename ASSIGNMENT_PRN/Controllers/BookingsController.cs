@@ -31,18 +31,29 @@ namespace ASSIGNMENT_PRN.Controllers
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingDto model)
         {
             var room = await _context.Rooms.FindAsync(model.RoomId);
-            if (room == null || room.Status != "Available")
-            {
-                return BadRequest("Room is not available");
-            }
+            if (room == null)
+                return BadRequest("Room not found.");
+
+            if (room.Status == "Maintenance")
+                return BadRequest("This room is under maintenance and cannot be booked.");
 
             if (model.CheckInDate.Date < DateTime.UtcNow.Date)
-            {
-                return BadRequest("Cannot book dates in the past");
-            }
+                return BadRequest("Cannot book dates in the past.");
 
             var days = (model.CheckOutDate - model.CheckInDate).Days;
-            if (days <= 0) return BadRequest("Check-out must be after check-in");
+            if (days <= 0) return BadRequest("Check-out must be after check-in.");
+
+            // Check for overlapping active bookings (Pending, Confirmed, Paid, CheckedIn)
+            var activeStatuses = new[] { "Pending", "Confirmed", "Paid", "CheckedIn" };
+            var hasConflict = await _context.Bookings.AnyAsync(b =>
+                b.RoomId == model.RoomId &&
+                activeStatuses.Contains(b.Status) &&
+                b.CheckInDate < model.CheckOutDate &&
+                b.CheckOutDate > model.CheckInDate
+            );
+
+            if (hasConflict)
+                return BadRequest("Room is already booked for the selected dates.");
 
             var booking = new Booking
             {
@@ -50,12 +61,9 @@ namespace ASSIGNMENT_PRN.Controllers
                 RoomId = model.RoomId,
                 CheckInDate = model.CheckInDate,
                 CheckOutDate = model.CheckOutDate,
-                Status = "Pending", // Custom status logic
+                Status = "Pending",
                 TotalPrice = room.Price * days
             };
-
-            // In a real app we might mark room as booked
-            // room.Status = "Booked";
 
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
@@ -103,11 +111,10 @@ namespace ASSIGNMENT_PRN.Controllers
             if (booking.Status == "Cancelled") return BadRequest("Already cancelled");
             if (booking.Status == "Completed") return BadRequest("Cannot cancel completed booking");
             if (booking.Status == "Paid") return BadRequest("Cannot cancel a paid booking");
+            if (booking.Status == "CheckedIn") return BadRequest("Cannot cancel a checked-in booking. Please check-out instead.");
 
             booking.Status = "Cancelled";
-            // Free the room back
-            if (booking.Room != null)
-                booking.Room.Status = "Available";
+            // Room.Status is managed separately - not mutated on cancel.
 
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Booking cancelled successfully" });
@@ -203,9 +210,8 @@ namespace ASSIGNMENT_PRN.Controllers
             _context.Payments.Add(payment);
             booking.Status = "Paid";
 
-            // Mark room as Occupied
-            if (booking.Room != null)
-                booking.Room.Status = "Occupied";
+            // Payment does not physically occupy the room, Check-in does.
+            // DO NOT set Room.Status = "Occupied" here.
 
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Payment processed successfully", Payment = payment });

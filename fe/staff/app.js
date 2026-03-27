@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- UI HELPERS ---
     const showToast = (message, type = 'success') => {
         const container = document.getElementById('toastContainer');
-        if(!container) return;
+        if (!container) return;
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
         toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'} ${message}</span>`;
@@ -84,10 +84,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- PAGINATION RENDERER ---
     const renderPagination = (key, containerId, onPageChange) => {
         const container = document.getElementById(containerId);
-        if(!container) return;
+        if (!container) return;
         const { data, page, limit } = state[key];
         const totalPages = Math.ceil(data.length / limit);
-        
+
         if (totalPages <= 1) {
             container.innerHTML = '';
             return;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let html = `
             <button class="page-btn ${page === 1 ? 'disabled' : ''}" onclick="window.changePage('${key}', ${page - 1})">Prev</button>
         `;
-        
+
         for (let i = 1; i <= totalPages; i++) {
             html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="window.changePage('${key}', ${i})">${i}</button>`;
         }
@@ -110,12 +110,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.changePage = (key, newPage) => {
         state[key].page = newPage;
-        if(key === 'bookings') renderBookingsTable();
-        if(key === 'rooms') renderRoomsTable();
-        if(key === 'requests') renderRequestsTable();
-        if(key === 'inventory') renderInventoryTable();
-        if(key === 'services') renderServicesTable();
-        if(key === 'feedback') renderFeedbackTable();
+        if (key === 'bookings') renderBookingsTable();
+        if (key === 'rooms') renderRoomsTable();
+        if (key === 'requests') renderRequestsTable();
+        if (key === 'inventory') renderInventoryTable();
+        if (key === 'services') renderServicesTable();
+        if (key === 'feedback') renderFeedbackTable();
     };
 
     // --- INITIALIZATION ---
@@ -161,9 +161,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const status = document.getElementById('bookingStatusFilter')?.value || '';
 
         state.bookings.data = state.bookings.allData.filter(b => {
-            const matchesSearch = (b.userName || '').toLowerCase().includes(search) || 
-                                 (b.roomNumber || '').toString().toLowerCase().includes(search) ||
-                                 (b.bookingId || '').toString().includes(search);
+            const matchesSearch = (b.userName || '').toLowerCase().includes(search) ||
+                (b.roomNumber || '').toString().toLowerCase().includes(search) ||
+                (b.bookingId || '').toString().includes(search);
             const matchesStatus = status === '' || (b.status || '').toLowerCase() === status.toLowerCase();
             return matchesSearch && matchesStatus;
         });
@@ -183,9 +183,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             state.bookings.page = 1;
             window.filterBookings();
             if (!silent) showToast('Bookings updated', 'success');
-        } catch (error) { 
+        } catch (error) {
             console.error("Load Bookings Error:", error);
-            showToast(error.message, 'error'); 
+            showToast(error.message, 'error');
         } finally { toggleLoading('btnRefreshBookings', false); }
     };
 
@@ -200,17 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const tr = document.createElement('tr');
             const checkIn = new Date(b.checkInDate).toLocaleDateString('vi-VN');
             const checkOut = new Date(b.checkOutDate).toLocaleDateString('vi-VN');
-            let actions = '';
             const status = b.status.toLowerCase();
-
-            if (status === 'pending') {
-                actions += `<button class="btn btn-primary btn-xs" onclick="confirmPendingBooking(${b.bookingId})">Confirm</button> `;
-            } else if (status === 'confirmed') {
-                actions += `<button class="btn btn-primary btn-xs" onclick="handleBookingAction(${b.bookingId}, 'checkin')">Check-in</button> `;
-                actions += `<button class="btn btn-danger btn-xs" onclick="handleBookingAction(${b.bookingId}, 'cancel')">Cancel</button>`;
-            } else if (status === 'checkedin') {
-                actions += `<button class="btn btn-warning btn-xs" onclick="handleBookingAction(${b.bookingId}, 'checkout')">Check-out</button> `;
-            }
 
             let badgeCls = 'badge-confirmed';
             if (status === 'checkedin') badgeCls = 'badge-checkedin';
@@ -225,7 +215,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td><span style="font-size: 0.8rem; color: #94a3b8;">${checkIn} → ${checkOut}</span></td>
                 <td style="font-weight:600; color:#818cf8">${formatPrice(b.totalPrice)}</td>
                 <td><span class="badge ${badgeCls}">${b.status}</span></td>
-                <td>${actions || '-'}</td>
             `;
             tbody.appendChild(tr);
         });
@@ -257,9 +246,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             state.rooms.page = 1;
             window.filterRooms();
             if (!silent) showToast('Rooms updated', 'success');
-        } catch (error) { 
+        } catch (error) {
             console.error("Load Rooms Error:", error);
-            showToast(error.message, 'error'); 
+            showToast(error.message, 'error');
         } finally { toggleLoading('btnRefreshRooms', false); }
     };
 
@@ -291,8 +280,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const status = document.getElementById('requestStatusFilter')?.value || '';
 
         state.requests.data = state.requests.allData.filter(r => {
-            const matchesSearch = (r.requestContent || '').toLowerCase().includes(search) || 
-                                 (r.booking?.roomNumber || '').toString().toLowerCase().includes(search);
+            const matchesSearch = (r.requestContent || '').toLowerCase().includes(search) ||
+                (r.booking?.roomNumber || '').toString().toLowerCase().includes(search);
             const matchesStatus = status === '' || (r.status || '').toLowerCase() === status.toLowerCase();
             return matchesSearch && matchesStatus;
         });
@@ -311,9 +300,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             state.requests.page = 1;
             window.filterRequests();
             if (!silent) showToast('Requests updated', 'success');
-        } catch (error) { 
+        } catch (error) {
             console.error("Load Requests Error:", error);
-            showToast(error.message, 'error'); 
+            showToast(error.message, 'error');
         } finally { toggleLoading('btnRefreshRequests', false); }
     };
 
@@ -364,9 +353,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             state.inventory.page = 1;
             window.filterInventory();
             if (!silent) showToast('Inventory updated', 'success');
-        } catch (error) { 
+        } catch (error) {
             console.error("Load Inventory Error:", error);
-            showToast(error.message, 'error'); 
+            showToast(error.message, 'error');
         } finally { toggleLoading('btnRefreshInventory', false); }
     };
 
@@ -377,7 +366,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Show alert if any item is low stock
         const hasLowStock = allData.some(i => i.quantity <= i.minStockLevel);
-        if(alertBox) alertBox.classList.toggle('hidden', !hasLowStock);
+        if (alertBox) alertBox.classList.toggle('hidden', !hasLowStock);
 
         const start = (page - 1) * limit;
         const pageData = data.slice(start, start + limit);
@@ -417,9 +406,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             state.services.page = 1;
             window.filterServices();
             if (!silent) showToast('Services updated', 'success');
-        } catch (error) { 
+        } catch (error) {
             console.error("Load Services Error:", error);
-            showToast(error.message, 'error'); 
+            showToast(error.message, 'error');
         } finally { toggleLoading('btnRefreshServices', false); }
     };
 
@@ -448,8 +437,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const rating = document.getElementById('feedbackRatingFilter')?.value || '';
 
         state.feedback.data = state.feedback.allData.filter(r => {
-            const matchesSearch = (r.bookingId || '').toString().includes(search) || 
-                                 (r.comment || '').toLowerCase().includes(search);
+            const matchesSearch = (r.bookingId || '').toString().includes(search) ||
+                (r.comment || '').toLowerCase().includes(search);
             const matchesRating = rating === '' || (r.rating || '').toString() === rating;
             return matchesSearch && matchesRating;
         });
@@ -468,9 +457,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             state.feedback.page = 1;
             window.filterFeedback();
             if (!silent) showToast('Feedback updated', 'success');
-        } catch (error) { 
+        } catch (error) {
             console.error("Load Feedback Error:", error);
-            showToast(error.message, 'error'); 
+            showToast(error.message, 'error');
         } finally { toggleLoading('btnRefreshFeedback', false); }
     };
 
@@ -502,7 +491,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const modal = document.getElementById('detailModal');
         const content = document.getElementById('detailContent');
         const title = document.getElementById('detailModalTitle');
-        
+
         content.innerHTML = '<p style="text-align:center; padding:2rem; opacity:0.5;">Loading details...</p>';
         modal.classList.add('show');
         title.textContent = `Booking Info #${id}`;
@@ -521,6 +510,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="detail-item"><div class="detail-label">Total Price</div><div class="detail-value" style="color:#818cf8; font-weight:700;">${formatPrice(b.totalPrice)}</div></div>
                     <div class="detail-item"><div class="detail-label">Current Status</div><div class="detail-value">${b.status}</div></div>
                 </div>
+
+                <div style="margin-top:20px; display:flex; gap:10px;">
+                    ${(b.status === 'Confirmed' || b.status === 'Paid' || b.status === 'Pending') ? `<button class="btn btn-primary" onclick="checkInBooking(${b.bookingId})">Check In</button>` : ''}
+                    ${b.status === 'CheckedIn' ? `<button class="btn btn-primary" onclick="checkOutBooking(${b.bookingId})">Check Out</button>` : ''}
+                    ${(b.status !== 'Cancelled' && b.status !== 'Completed' && b.status !== 'CheckedIn') ? `<button class="btn btn-danger" onclick="cancelBooking(${b.bookingId})">Cancel Booking</button>` : ''}
+                </div>
+
                 ${review ? `
                     <div style="margin-top:2rem; padding:1.5rem; background:rgba(245,158,11,0.05); border:1px solid rgba(245,158,11,0.1); border-radius:16px;">
                         <h4 style="margin:0 0 10px 0; color:#f59e0b;">Guest Review</h4>
@@ -532,6 +528,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div style="margin-top:2rem;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
                         <h4 style="margin:0">Services on Booking</h4>
+                        ${(b.status === 'CheckedIn' || b.status === 'Confirmed' || b.status === 'Paid') ? `<button class="btn btn-primary btn-xs" onclick="openAddServiceToBookingModal(${id})">+ Add Service</button>` : ''}
                     </div>
                     <div id="bookingServicesList">
                         <p style="text-align:center; opacity:0.5; padding:1rem;">Loading services...</p>
@@ -539,7 +536,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
             loadBookingServices(id);
-        } catch (error) { 
+        } catch (error) {
             console.error("View Booking Detail Error:", error);
             content.innerHTML = `<p class="text-error">Error: ${error.message}</p>`;
         }
@@ -575,7 +572,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const allServices = await ApiService.get('/admin/services');
             let options = allServices.map(s => `<option value="${s.serviceId}">${s.name} (${formatPrice(s.price)})</option>`).join('');
-            
+
             openModal('Add Service', `
                 <div class="form-group"><label>Select Service</label><select name="svcId" class="form-control" style="width:100%">${options}</select></div>
                 <div class="form-group"><label>Quantity</label><input type="number" name="qty" value="1" min="1" required></div>
@@ -645,44 +642,44 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="form-group"><label>Min Level</label><input type="number" name="min" value="10" required></div>
             <div class="form-group"><label>Price ($)</label><input type="number" name="price" value="0.00" step="0.01" required></div>
         `, async (fd) => {
-            const payload = { 
-                name: fd.get('name'), 
-                unit: 'cái', 
-                quantity: parseInt(fd.get('qty')), 
-                minStockLevel: parseInt(fd.get('min')), 
-                price: parseFloat(fd.get('price')) 
+            const payload = {
+                name: fd.get('name'),
+                unit: 'cái',
+                quantity: parseInt(fd.get('qty')),
+                minStockLevel: parseInt(fd.get('min')),
+                price: parseFloat(fd.get('price'))
             };
-            try { 
-                await ApiService.post('/staff/inventory', payload); 
-                showToast('Item Added!'); 
-                closeFormModal(); 
-                window.loadInventory(true); 
+            try {
+                await ApiService.post('/staff/inventory', payload);
+                showToast('Item Added!');
+                closeFormModal();
+                window.loadInventory(true);
             } catch (error) { showToast(error.message, 'error'); }
         });
     }
 
     window.editInventoryItemById = (id) => {
         const item = state.inventory.data.find(i => i.inventoryItemId === id);
-        if(!item) return;
+        if (!item) return;
         openModal('Edit Item', `
             <div class="form-group"><label>Name</label><input type="text" name="name" value="${item.name}" required></div>
             <div class="form-group"><label>Quantity</label><input type="number" name="qty" value="${item.quantity}" required></div>
             <div class="form-group"><label>Min Level</label><input type="number" name="min" value="${item.minStockLevel}" required></div>
             <div class="form-group"><label>Price ($)</label><input type="number" name="price" value="${item.price}" step="0.01" required></div>
         `, async (fd) => {
-            const payload = { 
-                inventoryItemId: id, 
-                name: fd.get('name'), 
-                unit: item.unit || 'cái', 
-                quantity: parseInt(fd.get('qty')), 
-                minStockLevel: parseInt(fd.get('min')), 
-                price: parseFloat(fd.get('price')) 
+            const payload = {
+                inventoryItemId: id,
+                name: fd.get('name'),
+                unit: item.unit || 'cái',
+                quantity: parseInt(fd.get('qty')),
+                minStockLevel: parseInt(fd.get('min')),
+                price: parseFloat(fd.get('price'))
             };
-            try { 
-                await ApiService.put(`/staff/inventory/${id}`, payload); 
-                showToast('Saved!'); 
-                closeFormModal(); 
-                window.loadInventory(true); 
+            try {
+                await ApiService.put(`/staff/inventory/${id}`, payload);
+                showToast('Saved!');
+                closeFormModal();
+                window.loadInventory(true);
             } catch (error) { showToast(error.message, 'error'); }
         });
     }

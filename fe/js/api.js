@@ -14,28 +14,31 @@ class ApiService {
 
     static async handleResponse(response, endpoint) {
         if (!response.ok) {
+            // Read the error message before throwing
+            let errorMsg = `HTTP Error ${response.status}`;
+            const errorText = await response.text();
+            try {
+                if (errorText) {
+                    const errorJson = JSON.parse(errorText);
+                    errorMsg = errorJson.message || errorJson.Message || errorJson.title || errorJson.Title || errorMsg;
+                }
+            } catch (e) {
+                // Not JSON, ignore and use status or raw text if not too long
+                if (errorText && errorText.length < 100) errorMsg = errorText;
+            }
+
             if (response.status === 401) {
-                // Unauthorized - clear token and redirect to login
+                // Unauthorized - clear token
                 localStorage.removeItem('jwt_token');
                 // Don't auto-redirect if we're hitting the login endpoint
                 if (!endpoint.includes('/auth/login')) {
                     window.location.href = '/index.html';
                 }
-                throw new Error('Unauthorized');
+                // Throw the specific extracted message
+                throw new Error(errorMsg !== `HTTP Error 401` ? errorMsg : 'Unauthorized');
             }
 
-            const errorText = await response.text();
-            try {
-                const errorJson = JSON.parse(errorText);
-                // Backend can return message (lowercase) or Message (uppercase)
-                const msg = errorJson.message || errorJson.Message || errorJson.title || errorJson.Title;
-                throw new Error(msg || `HTTP Error ${response.status}`);
-            } catch (e) {
-                if (e instanceof SyntaxError) {
-                    throw new Error(`Server returned an invalid response (HTTP ${response.status}).`);
-                }
-                throw e;
-            }
+            throw new Error(errorMsg);
         }
 
         // Handle empty or text responses
