@@ -17,6 +17,36 @@ namespace ASSIGNMENT_PRN.Controllers
             _context = context;
         }
 
+        // GET: /api/staff/rooms
+        [HttpGet]
+        public async Task<IActionResult> GetRoomsStatus([FromQuery] DateTime? date)
+        {
+            var targetDate = date ?? DateTime.Today;
+
+            var rooms = await _context.Rooms
+                .Include(r => r.RoomType)
+                .ToListAsync();
+
+            var bookings = await _context.Bookings
+                .Where(b => b.Status != "Cancelled" &&
+                           b.CheckInDate.Date <= targetDate.Date &&
+                           b.CheckOutDate.Date > targetDate.Date)
+                .ToListAsync();
+
+            var result = rooms.Select(r => new
+            {
+                r.RoomId,
+                r.RoomNumber,
+                r.Price,
+                RoomType = r.RoomType?.Name ?? "Standard",
+                Status = bookings.Any(b => b.RoomId == r.RoomId) 
+                    ? "Occupied" 
+                    : (targetDate.Date == DateTime.Today ? r.Status : (r.Status == "Maintenance" || r.Status == "Dirty" ? r.Status : "Available"))
+            });
+
+            return Ok(result);
+        }
+
         // GET: /api/staff/rooms/availability
         [HttpGet("availability")]
         public async Task<ActionResult<IEnumerable<RoomDto>>> GetAvailableRooms([FromQuery] DateTime checkIn, [FromQuery] DateTime checkOut)
@@ -50,18 +80,23 @@ namespace ASSIGNMENT_PRN.Controllers
             return Ok(availableRooms);
         }
 
+        public class StatusUpdateDto
+        {
+            public string Status { get; set; }
+        }
+
         // PUT: /api/staff/rooms/{id}/status
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateRoomStatus(int id, [FromBody] string status)
+        public async Task<IActionResult> UpdateRoomStatus(int id, [FromBody] StatusUpdateDto dto)
         {
             var room = await _context.Rooms.FindAsync(id);
             if (room == null) return NotFound("Room not found");
 
             // Allow status update (e.g., Dirty, Clean, Maintenance, etc.)
-            room.Status = status;
+            room.Status = dto.Status;
 
             await _context.SaveChangesAsync();
-            return Ok($"Room status updated to {status}");
+            return Ok(new { Message = $"Room status updated to {dto.Status}" });
         }
     }
 }

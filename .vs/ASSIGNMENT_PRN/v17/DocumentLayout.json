@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\hoang\\assignment_prn232\\assignment_prn\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|solutionrelative:assignment_prn\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|c:\\users\\hoang\\assignment_prn232\\assignment_prn\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{69F2052A-658F-4B79-8939-BD1ED326D6C5}|ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj|solutionrelative:assignment_prn\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -72,7 +76,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 26,
+          "SelectedChildIndex": 25,
           "Children": [
             {
               "$type": "Bookmark",
@@ -176,7 +180,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\Program.cs",
+              "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\Program.cs",
+              "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\Program.cs",
+              "RelativeToolTip": "ASSIGNMENT_PRN\\Program.cs",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAjwHYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T16:12:52.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "StaffBookingsController.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\Controllers\\StaffBookingsController.cs",
@@ -188,20 +205,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\appsettings.json",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\appsettings.json",
               "ToolTip": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\appsettings.json",
               "RelativeToolTip": "ASSIGNMENT_PRN\\appsettings.json",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAACVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2026-03-22T16:26:34.977Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\Entities\\User.cs",
               "RelativeDocumentMoniker": "BusinessObjects\\Entities\\User.cs",
@@ -213,7 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ASSIGNMENT_PRN.csproj",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
@@ -221,12 +238,11 @@
               "RelativeToolTip": "ASSIGNMENT_PRN\\ASSIGNMENT_PRN.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-14T14:20:41.95Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T14:20:41.95Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "BusinessObjects.csproj",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\BusinessObjects.csproj",
               "RelativeDocumentMoniker": "BusinessObjects\\BusinessObjects.csproj",
@@ -234,12 +250,11 @@
               "RelativeToolTip": "BusinessObjects\\BusinessObjects.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-14T14:20:41.41Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T14:20:41.41Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DataAccess.csproj",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\DataAccess.csproj",
               "RelativeDocumentMoniker": "DataAccess\\DataAccess.csproj",
@@ -247,12 +262,11 @@
               "RelativeToolTip": "DataAccess\\DataAccess.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-14T14:20:41.912Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T14:20:41.912Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "HotelDbContextFactory.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\HotelDbContextFactory.cs",
               "RelativeDocumentMoniker": "DataAccess\\HotelDbContextFactory.cs",
@@ -260,12 +274,11 @@
               "RelativeToolTip": "DataAccess\\HotelDbContextFactory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T14:40:17.188Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T14:40:17.188Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "ASSIGNMENT_PRN.http",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\ASSIGNMENT_PRN.http",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\ASSIGNMENT_PRN.http",
@@ -277,7 +290,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "WeatherForecastController.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\ASSIGNMENT_PRN\\Controllers\\WeatherForecastController.cs",
               "RelativeDocumentMoniker": "ASSIGNMENT_PRN\\Controllers\\WeatherForecastController.cs",
@@ -289,7 +302,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Booking.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\Entities\\Booking.cs",
               "RelativeDocumentMoniker": "BusinessObjects\\Entities\\Booking.cs",
@@ -301,7 +314,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "ExtraEntities.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\Entities\\ExtraEntities.cs",
               "RelativeDocumentMoniker": "BusinessObjects\\Entities\\ExtraEntities.cs",
@@ -313,7 +326,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Room.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\BusinessObjects\\Entities\\Room.cs",
               "RelativeDocumentMoniker": "BusinessObjects\\Entities\\Room.cs",
@@ -325,7 +338,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "HotelDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\DataAccess\\HotelDbContext.cs",
               "RelativeDocumentMoniker": "DataAccess\\HotelDbContext.cs",
@@ -337,7 +350,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\Hoang\\ASSIGNMENT_PRN232\\Repositories\\Class1.cs",
               "RelativeDocumentMoniker": "Repositories\\Class1.cs",
@@ -349,7 +362,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs",
               "RelativeDocumentMoniker": "..\\..\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\DataAccess\\Class1.cs",
@@ -360,7 +373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Class1.cs",
               "DocumentMoniker": "C:\\Users\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs",
               "RelativeDocumentMoniker": "..\\..\\doanh\\OneDrive\\Documents\\SE\\_2026_SPRING\\PRN232\\ASSIGNMENT_PRN\\BusinessObjects\\Class1.cs",

@@ -830,6 +830,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ASSIGNMENT_PRN.Controllers.ReviewsController",
+    "Method": "GetRoomReviews",
+    "RelativePath": "api/Reviews/room/{roomId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roomId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ASSIGNMENT_PRN.Controllers.RoomsController",
     "Method": "GetRooms",
     "RelativePath": "api/Rooms",
@@ -1398,6 +1414,22 @@
   },
   {
     "ContainingType": "ASSIGNMENT_PRN.Controllers.StaffRoomsController",
+    "Method": "GetRoomsStatus",
+    "RelativePath": "api/staff/rooms",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "date",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ASSIGNMENT_PRN.Controllers.StaffRoomsController",
     "Method": "UpdateRoomStatus",
     "RelativePath": "api/staff/rooms/{id}/status",
     "HttpMethod": "PUT",
@@ -1410,8 +1442,8 @@
         "IsRequired": true
       },
       {
-        "Name": "status",
-        "Type": "System.String",
+        "Name": "dto",
+        "Type": "ASSIGNMENT_PRN.Controllers.StaffRoomsController\u002BStatusUpdateDto",
         "IsRequired": true
       }
     ],
