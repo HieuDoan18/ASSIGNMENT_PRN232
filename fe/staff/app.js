@@ -119,6 +119,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- INITIALIZATION ---
+    // Set default date for Room Status
+    const roomDateInput = document.getElementById('roomStatusDate');
+    if (roomDateInput) {
+        roomDateInput.value = new Date().toISOString().split('T')[0];
+    }
+
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         const name = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || payload.sub || 'Staff';
@@ -237,10 +243,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     window.loadRooms = async (silent = true) => {
-        console.log("Refreshing Rooms (Silent:", silent, ")...");
+        const dateVal = document.getElementById('roomStatusDate')?.value;
+        console.log("Refreshing Rooms (Silent:", silent, " Date:", dateVal, ")...");
         toggleLoading('btnRefreshRooms', true);
         try {
-            const data = await ApiService.get('/admin/rooms');
+            const data = await ApiService.get(dateVal ? `/staff/rooms?date=${dateVal}` : '/staff/rooms');
             state.rooms.allData = Array.isArray(data) ? data : [];
             state.rooms.data = [...state.rooms.allData];
             state.rooms.page = 1;
@@ -265,7 +272,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td><strong>Room ${r.roomNumber}</strong></td>
-                <td>${r.roomType?.name || 'Standard'}</td>
+                <td>${r.roomType || 'Standard'}</td>
                 <td><span style="display:inline-flex; align-items:center; gap:8px;"><div style="width:8px; height:8px; border-radius:50%; background:${dotColor};"></div> ${r.status}</span></td>
                 <td><button class="btn btn-secondary btn-xs" onclick="manageRoom(${r.roomId}, '${r.status}')">Change</button></td>
             `;
@@ -474,7 +481,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>
-                    <div onclick="viewBookingDetail(${r.bookingId})" style="font-weight:700; color:#818cf8; font-size:0.9rem; cursor:pointer; text-decoration:underline;">#${r.bookingId}</div>
+                    <div onclick="viewBookingDetail(${r.bookingId}, true)" style="font-weight:700; color:#818cf8; font-size:0.9rem; cursor:pointer; text-decoration:underline;">#${r.bookingId}</div>
                     <div style="font-size:0.75rem; color:#94a3b8;">Room ${r.booking?.room?.roomNumber || 'N/A'}</div>
                 </td>
                 <td style="color:#f59e0b">${"★".repeat(r.rating)}</td>
@@ -487,7 +494,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderPagination('feedback', 'feedbackPagination');
     };
 
-    window.viewBookingDetail = async (id) => {
+    window.viewBookingDetail = async (id, hideActions = false) => {
         const modal = document.getElementById('detailModal');
         const content = document.getElementById('detailContent');
         const title = document.getElementById('detailModalTitle');
@@ -511,12 +518,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="detail-item"><div class="detail-label">Current Status</div><div class="detail-value">${b.status}</div></div>
                 </div>
 
-                <div style="margin-top:20px; display:flex; gap:10px;">
-                    ${(b.status === 'Confirmed' || b.status === 'Paid' || b.status === 'Pending') ? `<button class="btn btn-primary" onclick="checkInBooking(${b.bookingId})">Check In</button>` : ''}
-                    ${b.status === 'CheckedIn' ? `<button class="btn btn-primary" onclick="checkOutBooking(${b.bookingId})">Check Out</button>` : ''}
-                    ${(b.status !== 'Cancelled' && b.status !== 'Completed' && b.status !== 'CheckedIn') ? `<button class="btn btn-danger" onclick="cancelBooking(${b.bookingId})">Cancel Booking</button>` : ''}
-                </div>
-
                 ${review ? `
                     <div style="margin-top:2rem; padding:1.5rem; background:rgba(245,158,11,0.05); border:1px solid rgba(245,158,11,0.1); border-radius:16px;">
                         <h4 style="margin:0 0 10px 0; color:#f59e0b;">Guest Review</h4>
@@ -525,10 +526,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 ` : ''}
 
+                ${!hideActions ? `
+                <div style="margin-top:20px; display:flex; gap:10px;">
+                    ${(b.status === 'Confirmed' || b.status === 'Paid' || b.status === 'Pending') ? `<button class="btn btn-primary" onclick="checkInBooking(${b.bookingId})">Check In</button>` : ''}
+                    ${b.status === 'CheckedIn' ? `<button class="btn btn-primary" onclick="checkOutBooking(${b.bookingId})">Check Out</button>` : ''}
+                    ${(b.status !== 'Cancelled' && b.status !== 'Completed' && b.status !== 'CheckedIn') ? `<button class="btn btn-danger" onclick="cancelBooking(${b.bookingId})">Cancel Booking</button>` : ''}
+                </div>
+                ` : ''}
+
                 <div style="margin-top:2rem;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
                         <h4 style="margin:0">Services on Booking</h4>
-                        ${(b.status === 'CheckedIn' || b.status === 'Confirmed' || b.status === 'Paid') ? `<button class="btn btn-primary btn-xs" onclick="openAddServiceToBookingModal(${id})">+ Add Service</button>` : ''}
+                        ${(!hideActions && (b.status === 'CheckedIn' || b.status === 'Confirmed' || b.status === 'Paid')) ? `<button class="btn btn-primary btn-xs" onclick="openAddServiceToBookingModal(${id})">+ Add Service</button>` : ''}
                     </div>
                     <div id="bookingServicesList">
                         <p style="text-align:center; opacity:0.5; padding:1rem;">Loading services...</p>
@@ -630,7 +639,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const statuses = ['Available', 'Occupied', 'Dirty', 'Maintenance'];
         let options = statuses.map(s => `<option value="${s}" ${s === currentStatus ? 'selected' : ''}>${s}</option>`).join('');
         openModal('Room Status', `<select name="status" class="form-control" style="width:100%">${options}</select>`, async (fd) => {
-            try { await ApiService.put(`/staff/rooms/${id}/status`, fd.get('status')); showToast('Updated!'); closeFormModal(); loadRooms(); }
+            try { 
+                await ApiService.put(`/staff/rooms/${id}/status`, { status: fd.get('status') }); 
+                showToast('Updated!'); closeFormModal(); loadRooms(); 
+            }
             catch (error) { showToast(error.message, 'error'); }
         });
     };

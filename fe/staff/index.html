@@ -589,6 +589,9 @@
                 </div>
 
                 <div class="filter-row">
+                    <div class="search-wrapper" style="max-width: 250px;">
+                        <input type="date" id="roomStatusDate" title="Select Date to view Status" onchange="loadRooms()" style="padding-left: 1rem !important;">
+                    </div>
                     <div class="search-wrapper">
                         <i class="fas fa-search"></i>
                         <input type="text" id="roomSearch" placeholder="Search Room Number..." oninput="filterRooms()">

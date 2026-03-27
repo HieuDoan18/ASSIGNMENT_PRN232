@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\ASSIGNMENT_PRN.props" />
-</Project>
