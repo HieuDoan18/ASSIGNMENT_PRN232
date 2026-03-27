@@ -59,7 +59,12 @@ namespace ASSIGNMENT_PRN.Controllers
 
             if (user == null)
             {
-                return Unauthorized("Invalid credentials");
+                return Unauthorized(new { Message = "Invalid credentials" });
+            }
+
+            if (user.IsLocked)
+            {
+                return Unauthorized(new { Message = "User is locked" });
             }
 
             var token = GenerateJwtToken(user);
@@ -146,7 +151,7 @@ namespace ASSIGNMENT_PRN.Controllers
                 </div>
                 <p>If you did not request this, please ignore this email.</p>
                 <p>Best Regards,<br>Hotel Management Team</p>";
-                
+
             await _emailService.SendEmailAsync(user.Email, subject, body);
 
             return Ok(new { Message = "If that email is in our database, we have sent a password reset token." });
@@ -178,7 +183,8 @@ namespace ASSIGNMENT_PRN.Controllers
             var user = await _context.Users.FindAsync(userId);
             if (user == null) return NotFound();
 
-            return Ok(new {
+            return Ok(new
+            {
                 user.UserId,
                 user.Email,
                 user.FullName,

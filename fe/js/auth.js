@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const response = await ApiService.post('/auth/login', data);
+            console.log('Login response:', response);
             localStorage.setItem('jwt_token', response.token);
             // Optionally store refresh token
             if (response.refreshToken) {
@@ -91,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             redirectUser(response.token);
         } catch (error) {
+            console.log('Login error:', error);
             showAlert(loginAlert, error.message);
             btn.textContent = oldText;
             btn.disabled = false;

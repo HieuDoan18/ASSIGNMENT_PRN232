@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const color = statusColor[b.status] || '#94A3B8';
                 const checkIn = new Date(b.checkInDate).toLocaleDateString('vi-VN');
                 const checkOut = new Date(b.checkOutDate).toLocaleDateString('vi-VN');
-                const canCancel = b.status !== 'Cancelled' && b.status !== 'Completed' && b.status !== 'Paid';
+                const canCancel = b.status !== 'Cancelled' && b.status !== 'Completed' && b.status !== 'Paid' && b.status !== 'CheckedIn';
                 const canReview = b.status === 'Completed' || b.status === 'Paid';
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Show/hide cancel button
-        const canCancel = status !== 'Cancelled' && status !== 'Completed';
+        const canCancel = status !== 'Cancelled' && status !== 'Completed' && status !== 'Paid' && status !== 'CheckedIn';
         document.getElementById('cancelBtnContainer').style.display = canCancel ? 'block' : 'none';
 
         // Load services dropdown
