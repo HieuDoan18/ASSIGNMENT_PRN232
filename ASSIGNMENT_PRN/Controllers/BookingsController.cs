@@ -36,8 +36,13 @@ namespace ASSIGNMENT_PRN.Controllers
                 return BadRequest("Room is not available");
             }
 
+            if (model.CheckInDate.Date < DateTime.UtcNow.Date)
+            {
+                return BadRequest("Cannot book dates in the past");
+            }
+
             var days = (model.CheckOutDate - model.CheckInDate).Days;
-            if (days <= 0) return BadRequest("Invalid dates");
+            if (days <= 0) return BadRequest("Check-out must be after check-in");
 
             var booking = new Booking
             {

@@ -72,6 +72,28 @@ namespace ASSIGNMENT_PRN.Controllers
             return Ok(reviews);
         }
 
+        [HttpGet("room/{roomId}")]
+        [AllowAnonymous] // Allow anyone to see reviews for a room
+        public async Task<IActionResult> GetRoomReviews(int roomId)
+        {
+            var reviews = await _context.Reviews
+                .Include(r => r.Booking)
+                .Where(r => r.Booking.RoomId == roomId)
+                .OrderByDescending(r => r.CreatedAt)
+                // Select an anonymous object or a new DTO so we don't leak user info from Booking
+                .Select(r => new {
+                    r.ReviewId,
+                    r.Rating,
+                    r.Comment,
+                    r.StaffReply,
+                    r.CreatedAt,
+                    CustomerName = r.Booking.User != null ? r.Booking.User.FullName : "Anonymous"
+                })
+                .ToListAsync();
+
+            return Ok(reviews);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReview(int id, [FromBody] UpdateReviewDto model)
         {
